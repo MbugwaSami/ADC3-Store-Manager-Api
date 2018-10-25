@@ -4,7 +4,7 @@ from flask import Flask
 
 from instance.config import app_config
 
-ENVIRONMENT = os.environ['ENV']
+ENVIRONMENT ="development"
 class DbBase(object):
 	"""This Class has the setup for connecting to the database and creation of tables """
 
@@ -23,8 +23,8 @@ class DbBase(object):
             user_id integer PRIMARY KEY NOT NULL,
             names varchar(40) NOT NULL,
             email varchar(100) NOT NULL,
-            role varchar(15) NOT NULL,       
-		)"""
+            role varchar(15) NOT NULL)
+        """
 
 		query2 = """CREATE TABLE if not EXISTS products(
             product_id integer PRIMARY KEY NOT NULL,
@@ -33,8 +33,8 @@ class DbBase(object):
             price integer NOT NULL,
             min_stock integer NOT NULL,
             stock integer NOT NULL,
-            category varchar(20),
-		)"""
+            category varchar(20))
+        """
 
 
 		query3 = """CREATE TABLE if not EXISTS sales(
@@ -43,8 +43,8 @@ class DbBase(object):
             item_count integer NOT NULL,
             price integer NOT NULL,
             user_id varchar(20) NOT NULL,
-            date_created timestamp,       
-		)"""	
+            date_created timestamp)
+		"""	
 
 		queries=[query1,query2,query3]
 
