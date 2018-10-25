@@ -10,11 +10,20 @@ class DbBase(object):
 
 
 	def connection(self):
-		"""This method creates a connection to the class"""
+		"""This method creates a connection to the class
+		   param:con
+		   return:connection
+
+		"""
 		conn = psycopg2.connect(app_config[ENVIRONMENT].connectionVariables)
 		return conn
 
 	def createTables(self):
+		"""This method creates all tables if they dont exist
+           param1:connection
+           param2:queries
+           param3:cursor 
+		"""
 
 		conn = self.connection()
 		cur=conn.cursor()
