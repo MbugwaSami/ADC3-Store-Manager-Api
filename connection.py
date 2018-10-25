@@ -4,8 +4,8 @@ from flask import Flask
 
 from instance.config import app_config
 
-ENVIRONMENT = os.environment['ENV']
-app_config[ENVIRONMENT].CONNECTION_STRING
+ENVIRONMENT = os.environ['ENV']
+app_config[ENVIRONMENT].connectionVariables
 class DbBase(object):
 	"""This Class has the setup for connecting to the database and creation of tables """
 
@@ -20,14 +20,14 @@ class DbBase(object):
 		conn = self.connection()
 		cur=conn.cursor()
 
-		query1 = ""CREATE TABLE if not EXISTS users(
+		query1 = """CREATE TABLE if not EXISTS users(
             user_id integer PRIMARY KEY NOT NULL,
             names varchar(40) NOT NULL,
             email varchar(100) NOT NULL,
             role varchar(15) NOT NULL,       
-		)""
+		)"""
 
-		query2 = ""CREATE TABLE if not EXISTS products(
+		query2 = """CREATE TABLE if not EXISTS products(
             product_id integer PRIMARY KEY NOT NULL,
             product_name varchar(20) UNIQUE NOT NULL,
             description varchar(20) NOT NULL,
@@ -35,17 +35,17 @@ class DbBase(object):
             min_stock integer NOT NULL,
             stock integer NOT NULL,
             category varchar(20),
-		)""
+		)"""
 
 
-		query3 = ""CREATE TABLE if not EXISTS sales(
+		query3 = """CREATE TABLE if not EXISTS sales(
             sale_id integer PRIMARY KEY NOT NULL,
             items varchar(20) NOT NULL,
             item_count integer NOT NULL,
             price integer NOT NULL,
             user_id varchar(20) NOT NULL,
             date_created timestamp,       
-		)""	
+		)"""	
 
 		queries=[query1,query2,query3]
 
@@ -53,8 +53,8 @@ class DbBase(object):
 
 			cur.execute(query)
 
-        conn.commit()
-        conn.close()			
+		conn.commit()
+		conn.close()			
 
 
 
