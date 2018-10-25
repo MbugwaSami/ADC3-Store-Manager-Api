@@ -5,7 +5,6 @@ from flask import Flask
 from instance.config import app_config
 
 ENVIRONMENT = os.environ['ENV']
-app_config[ENVIRONMENT].connectionVariables
 class DbBase(object):
 	"""This Class has the setup for connecting to the database and creation of tables """
 

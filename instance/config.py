@@ -19,22 +19,8 @@ class TestingConfig(Config):
     connectionVariables="dbname='store-manager-test' user='postgres' host='localhost' port='5432'"
     os.environ['ENV']='development'
 
-class StagingConfig(Config):
-    """Configurations for Staging."""
-    DEBUG = True
-    os.environ['ENV']='staging'
-
-
-class ProductionConfig(Config):
-    """Configurations for Production."""
-    DEBUG = False
-    TESTING = False
-    os.environ['ENV']='production'
-
 
 app_config = {
     'development': DevelopmentConfig,
     'testing': TestingConfig,
-    'staging': StagingConfig,
-    'production': ProductionConfig,
 }
