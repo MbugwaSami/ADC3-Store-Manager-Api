@@ -17,7 +17,7 @@ class TestingConfig(Config):
     """Configurations for Testing,"""
     TESTING = True
     DEBUG = True
-    connectionVariables="dbname='store-manager-test' password='Mwoboko10@' user='postgres' host='localhost' port='5432'"
+    connectionVariables="dbname='store_manager_test' password='Mwoboko10@' user='postgres' host='localhost' port='5432'"
     os.environ['ENVIRONMENT']='testing'
 
 
