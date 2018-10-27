@@ -22,10 +22,13 @@ class UsersApi(Resource):
         """
         data=request.get_json()
 
+        if not data:
+            return {'message':'Fields cannot be empty'}
         email = data.get('email')
         names = data.get('names')
         password = data.get('password')
         role = data.get('role')
 
         response = jsonify(user_object.add_user(email,names,password,role))
+        response.status_code = 201
         return response

@@ -10,7 +10,6 @@ def create_app(config_name):
     app = Flask(__name__)
 
     app.config.from_object(app_config[config_name])
-    app.config['DATABASE']="JJJJ"
 
     # register the apps Blueprint created in api/v1/views folder
     from .api.v2.views import app_v2
@@ -18,7 +17,7 @@ def create_app(config_name):
 
     my_db.createTables()
     my_db.create_store_owner()
-    
+
 
 
     return app

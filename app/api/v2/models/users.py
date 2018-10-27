@@ -5,7 +5,7 @@ from ..models import Models
 
 
 class Users(Models):
-    """ 
+    """
     This class has methods for manipulation of user data.
     """
 
@@ -31,5 +31,13 @@ class Users(Models):
 
         return {'message':"User account succesfuly created"}
 
-    def select_one_user(self,email):
-        pass
+    def get_one_user(self,email):
+        """This method gets one user from the database
+           :param1:email.
+           :returns:user.
+        """
+
+        conn = self.connection()
+        cur=conn.cursor()
+        cur.execute("SELECT * FROM users where email =%s",(email,))
+        return cur.fetchone()

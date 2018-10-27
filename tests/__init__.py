@@ -21,6 +21,28 @@ class TestBase(unittest.TestCase):
             role = "attendant",
             )
 
+
+		self.test_user1 = dict(
+            email = "samimbugwa@gmailcom",
+            names = "Sammy Njau",
+            password = "Mwoboko10@",
+            role = "attendant",
+            )
+
+		self.test_user2 = dict(
+            email = "samimbugwa@gmailcom",
+            names = "Sammy Njau",
+            password = "111",
+            role = "attendant",
+            )
+
+		self.test_user3 = dict(
+            email = "samimbugwa@gmailcom",
+            names = "Sammy Njau",
+            password = "111",
+            role = "attendant",
+            )
+
 	def tearDown(self):
 
 		db.dropTables()

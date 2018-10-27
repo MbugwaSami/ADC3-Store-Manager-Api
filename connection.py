@@ -30,7 +30,7 @@ class DbBase(object):
 		query1 = """CREATE TABLE if not EXISTS users(
             user_id Serial  PRIMARY KEY NOT NULL,
             names varchar(40) NOT NULL,
-            email varchar(100) UNIQUE NOT NULL,
+            email varchar(100)  NOT NULL,
             password varchar(500) NOT NULL,
             role varchar(15) NOT NULL)
         """
@@ -84,12 +84,16 @@ class DbBase(object):
 		    conn.close()
 
 	def select_one_user(self,email):
+		"""This method gets one user from the system
+           param1:email
+		"""
 		conn = self.connection()
 		cur=conn.cursor()
 		cur.execute("SELECT * FROM users where email =%s",(email,))
 		return cur.fetchone()
 
 	def dropTables(self):
+	
 
 		 query1="""DROP TABLE if EXISTS users CASCADE"""
 		 query2="""DROP TABLE if EXISTS products CASCADE"""
@@ -102,5 +106,5 @@ class DbBase(object):
 		 for query in queries:
 
 			 cur.execute(query)
-		 conn.commit()	 
+		 conn.commit()
 		 conn.close
