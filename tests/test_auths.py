@@ -26,7 +26,7 @@ class TestAuths(TestBase):
 
     def test_user_data_is_not_empty(self):
 
-        """This method tests wheather a user data is supplied.
+        """This method tests wheather  user data is supplied.
            :param1:client.
            :returns:response:
         """
@@ -41,6 +41,16 @@ class TestAuths(TestBase):
         self.assertEqual("Fields cannot be empty",response_data["message"])
         self.assertEqual(response.status_code, 200)
 
+        response = self.client.post(
+        '/api/v2/users',
+        data = json.dumps(self.test_user5),
+        content_type = 'application/json'
+        )
+
+        response_data = json.loads(response.data)
+        self.assertEqual("Some fields are empty!",response_data["message"])
+        self.assertEqual(response.status_code, 200)
+
 
 
     def test_user_exists(self):
@@ -53,7 +63,7 @@ class TestAuths(TestBase):
 
         response = self.client.post(
         '/api/v2/users',
-        data = json.dumps(self.test_user),
+        data = json.dumps(self.test_user1),
         content_type = 'application/json'
         )
 
@@ -63,7 +73,7 @@ class TestAuths(TestBase):
 
         response = self.client.post(
         '/api/v2/users',
-        data = json.dumps(self.test_user),
+        data = json.dumps(self.test_user1),
         content_type = 'application/json'
         )
 
@@ -79,7 +89,7 @@ class TestAuths(TestBase):
         """
         response = self.client.post(
         '/api/v2/users',
-        data = json.dumps(self.test_user1),
+        data = json.dumps(self.test_user2),
         content_type = 'application/json'
         )
 
@@ -96,7 +106,7 @@ class TestAuths(TestBase):
 
         response = self.client.post(
         '/api/v2/users',
-        data = json.dumps(self.test_user2),
+        data = json.dumps(self.test_user3),
         content_type = 'application/json'
         )
 
@@ -115,7 +125,7 @@ class TestAuths(TestBase):
 
         response = self.client.post(
         '/api/v2/users',
-        data = json.dumps(self.test_user3),
+        data = json.dumps(self.test_user4),
         content_type = 'application/json'
         )
 

@@ -1,9 +1,9 @@
 from werkzeug.security import generate_password_hash
-from flask import current_app
+import re
+
 from ..models import Models
 
-
-
+enviroment="development"
 class Users(Models):
     """
     This class has methods for manipulation of user data.
@@ -19,13 +19,9 @@ class Users(Models):
         param4:role.
 
         returns: user added messages.
-        raises:invalid email message.
-        raises:email alrleady added message.
-        raises:invalid role message.
-        raises:week password error.
         """
         password = generate_password_hash(password)
-        self.cur.execute("INSERT INTO users(names,email, password,role) VALUES(%s,%s,%s,%s)",
+        self.cur.execute("INSERT INTO users(email,names, password,role) VALUES(%s,%s,%s,%s)",
         (email,names,password,role))
         self.conn.commit()
 
@@ -37,7 +33,32 @@ class Users(Models):
            :returns:user.
         """
 
-        conn = self.connection()
-        cur=conn.cursor()
-        cur.execute("SELECT * FROM users where email =%s",(email,))
-        return cur.fetchone()
+        self.cur.execute("SELECT * FROM users where email =%s",(email,))
+        return self.cur.fetchall()
+
+    def validate_password(self,password):
+        """
+        This method checks for strength of a password.
+        :return:password is valid or not.
+        """
+        is_password_valid = True
+        if (len(password)<6 or len(password)>12):
+            is_password_valid = False
+        elif not re.search("[a-z]",password):
+            is_password_valid = False
+        elif not re.search("[A-Z]",password):
+            is_password_valid = False
+        elif not re.search("[0-9]",password):
+            is_password_valid = False
+        elif not re.search("[$#@]",password):
+            is_password_valid = False
+        return is_password_valid
+
+    def validate_email(self,email):
+        """This method checks wheather an email is validate.
+           :param:email.
+           :returns: email is valid or not.
+        """
+        if re.match(r'^[_a-z0-9-]+(\.[_a-z0-9-]+)*@[a-z0-9-]+(\.[a-z0-9-]+)*(\.[a-z]{2,4})$', email,re.IGNORECASE):
+            return True
+        return False

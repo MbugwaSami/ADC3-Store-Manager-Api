@@ -37,7 +37,7 @@ class DbBase(object):
 
 		query2 = """CREATE TABLE if not EXISTS products(
             product_id Serial  PRIMARY KEY NOT NULL,
-            product_name varchar(20) UNIQUE NOT NULL,
+            product_name varchar(20)  NOT NULL,
             description varchar(20) NOT NULL,
             price integer NOT NULL,
             min_stock integer NOT NULL,
@@ -75,6 +75,7 @@ class DbBase(object):
 		"""
 		conn = self.connection()
 		cur=conn.cursor()
+		print(self.select_one_user("sam@gmail.com"))
 		if not self.select_one_user("sam@gmail.com"):
 
 		    password = generate_password_hash('Sammy10@')
@@ -93,7 +94,7 @@ class DbBase(object):
 		return cur.fetchone()
 
 	def dropTables(self):
-	
+
 
 		 query1="""DROP TABLE if EXISTS users CASCADE"""
 		 query2="""DROP TABLE if EXISTS products CASCADE"""
@@ -107,4 +108,5 @@ class DbBase(object):
 
 			 cur.execute(query)
 		 conn.commit()
+		 cur.close()
 		 conn.close
