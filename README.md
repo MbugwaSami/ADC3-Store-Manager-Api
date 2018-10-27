@@ -1,3 +1,4 @@
+[![Maintainability](https://api.codeclimate.com/v1/badges/983deaa061360fd47d75/maintainability)](https://codeclimate.com/github/MbugwaSami/ADC3-Store-Manager-Api/maintainability)
 # ADC3-Store-Manager-Api
 
 
