@@ -132,3 +132,23 @@ class TestAuths(TestBase):
         response_data = json.loads(response.data)
         self.assertEqual("Roles can only be admin or attendant",response_data["message"])
         self.assertEqual(response.status_code, 200)
+
+    def test_get_users(self):
+        """This method tests for methods for getting users.
+           :param1:client.
+           :param2:user data.
+           :returns:response.
+        """
+
+        response = self.client.post(
+        '/api/v2/users',
+        data = json.dumps(self.test_user6),
+        content_type = 'application/json'
+        )
+
+        response_data = json.loads(response.data)
+        self.assertEqual("User account succesfuly created",response_data["message"])
+        self.assertEqual(response.status_code, 201)
+
+        response = self.client.get('/api/v2/users')
+        self.assertEqual(response.status_code, 200)

@@ -33,7 +33,15 @@ class Users(Models):
            :returns:user.
         """
 
-        self.cur.execute("SELECT * FROM users where email =%s",(email,))
+        self.cur.execute("SELECT email,names,role FROM users where email =%s",(email,))
+        return self.cur.fetchone()
+
+    def get_all_users(self):
+        """
+        This method gets all details users
+        returns:all_users
+        """
+        self.cur.execute("SELECT email,names,role FROM users")
         return self.cur.fetchall()
 
     def validate_password(self,password):

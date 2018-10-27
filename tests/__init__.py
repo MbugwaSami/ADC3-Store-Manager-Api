@@ -59,3 +59,10 @@ class TestBase(unittest.TestCase):
             password = "Mwoboko10@",
             role = "admin",
             )
+
+		self.test_user6 = dict(
+            email = "njau.sammy@gmail.com",
+            names = "sammy njau",
+            password = "Mwoboko10@",
+            role = "attendant",
+            )

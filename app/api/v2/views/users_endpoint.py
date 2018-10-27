@@ -30,7 +30,7 @@ class UsersApi(Resource):
         role = data.get('role').lower()
 
         user_details = [email,names,password,role]
-
+        print(user_object.get_all_users())
         for field in user_details:
             if not field or field.isspace():
                 return {'message':'Some fields are empty!'}
@@ -50,4 +50,17 @@ class UsersApi(Resource):
 
         response = jsonify(user_object.add_user(email,names,password,role))
         response.status_code = 201
+        return response
+
+    def get(self):
+        """
+        This method gets data of all users.
+        returns:Details of a users.
+        """
+
+        users = user_object.get_all_users()
+
+        response = jsonify({"This are users in the system":users})
+        response.status_code = 200
+
         return response

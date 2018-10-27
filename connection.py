@@ -75,7 +75,6 @@ class DbBase(object):
 		"""
 		conn = self.connection()
 		cur=conn.cursor()
-		print(self.select_one_user("sam@gmail.com"))
 		if not self.select_one_user("sam@gmail.com"):
 
 		    password = generate_password_hash('Sammy10@')
