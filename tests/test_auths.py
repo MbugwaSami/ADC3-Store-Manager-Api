@@ -14,20 +14,10 @@ class TestAuths(TestBase):
         """
 
         response = self.client.post(
-        '/api/v1/users',
+        '/api/v2/users',
         data = json.dumps(self.test_user),
         content_type = 'application/json'
         )
 
         response_data = json.loads(response.data)
-        self.assertEqual("Email already registered",response_data["message"])
-
-        # test user is unique
-        response = self.client.post(
-        '/api/v1/users',
-        data = json.dumps(self.test_user),
-        content_type = 'application/json'
-        )
-
-        response_data = json.loads(response.data)
-        self.assertEqual("Email already registered",response_data["message"])
+        self.assertEqual("User account succesfuly created",response_data["message"])
