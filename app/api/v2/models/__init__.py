@@ -11,3 +11,5 @@ class Models(object):
     def __init__(self):
         self.conn = psycopg2.connect(app_config[enviroment].connectionVariables)
         self.cur = self.conn.cursor()
+
+    

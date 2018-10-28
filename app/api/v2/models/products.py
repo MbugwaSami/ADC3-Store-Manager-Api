@@ -54,3 +54,18 @@ class Products(Models):
         except Exception as e:
             self.cur.close
             self.conn.close
+
+
+    def delete_product(self,product_id):
+        """This method deletes a products from the database.
+           :return:delete message:
+        """
+        if not self.get_one_product(produ_id):
+            return dict(message = "This product is not in the system")
+        try:
+            self.cur.execute("DELETE FROM products WHERE product_id = %s", (produ_id,))
+            self.cur.commit()
+            return dict(message = "one product deleted")
+        except Exception as e:
+            self.cur.close
+            self.conn.close
