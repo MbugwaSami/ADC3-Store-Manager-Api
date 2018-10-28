@@ -1,4 +1,4 @@
-from werkzeug.security import generate_password_hash
+from werkzeug.security import generate_password_hash, check_password_hash
 import re
 
 from ..models import Models
@@ -43,6 +43,23 @@ class Users(Models):
         """
         self.cur.execute("SELECT email,names,role FROM users")
         return self.cur.fetchall()
+
+    def verify_user(self,email,password):
+        """This method verifys user  details during login.
+           :param1:email.
+           :param2:password.
+        """
+
+        self.cur.execute("SELECT  password FROM users WHERE email = %s ",(email,))
+        result=self.cur.fetchone()
+        if result:
+            valid_login = check_password_hash(result[0], password)
+            if not valid_login:
+                return False
+            return True
+        return False
+
+
 
     def validate_password(self,password):
         """

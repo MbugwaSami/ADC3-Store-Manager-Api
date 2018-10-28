@@ -64,3 +64,25 @@ class UsersApi(Resource):
         response.status_code = 200
 
         return response
+
+class SingleUserApi(Resource):
+    """
+    This class has post and get methods for single user data.
+    """
+
+    def post(self):
+        """This method posts user data for a login"""
+
+        data=request.get_json()
+
+        if not data:
+            return {'message':'please enter data to login'}
+        email = data.get('email').lower()
+        password = data.get('password')
+
+        if not user_object.verify_user(email,password):
+            return {'message':'wrong email or password'}
+        logged_user = user_object.get_one_user(email)
+        names = logged_user[1]
+        role = logged_user[2]
+        return dict(message = "wellcome "+names +", "+"you are loged in as "+role)
