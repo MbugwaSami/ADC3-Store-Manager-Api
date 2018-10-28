@@ -19,8 +19,38 @@ class Products(Models):
         raises:product existing message.
         """
 
-        self.cur.execute("INSERT INTO products(product_id,product_name,description,category,price,stock,min_stock)"+
-        "VALUES(%s,%s,%s,%s,%s,%s,%s)", (product_id,product_name,description,category,price,stock,minStock,))
-        self.conn.commit()
+        try:
+            self.cur.execute("INSERT INTO products(product_id,product_name,description,category,price,stock,min_stock)"+
+            "VALUES(%s,%s,%s,%s,%s,%s,%s)", (product_id,product_name,description,category,price,stock,minStock,))
+            self.conn.commit()
+        except Exception as e:
+            self.cur.close
+            self.conn.close
+
+
+
 
         return dict(message = product_name+" succesfuly added")
+
+    def get_one_product(self,param):
+        """This method check wheather a product is in the system.
+           :param:product_id/product_name.
+        """
+        try:
+            self.cur.execute("SELECT * FROM products WHERE product_name = %s OR product_id= %s",(param,param,))
+            return self.cur.fetchone()
+        except Exception as e:
+            self.cur.close
+            self.conn.close
+
+
+    def get_products(self):
+        """This method gets all products in the system.
+           :return:products:
+        """
+        try:
+            self.cur.execute("SELECT * FROM products")
+            return self.cur.fetchall()
+        except Exception as e:
+            self.cur.close
+            self.conn.close

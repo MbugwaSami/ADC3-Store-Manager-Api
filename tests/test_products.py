@@ -42,30 +42,33 @@ class TestProducts(TestBase):
         )
 
         response_data = json.loads(response.data)
-        self.assertEqual("Some data fields are empty!",response_data["message"])
+        self.assertEqual("Some required data fields are empty! only description and category can be empty",response_data["message"])
         self.assertEqual(response.status_code, 200)
 
         # test a product name is unique
         response = self.client.post(
-        '/api/v2/users',
+        '/api/v2/products',
         data = json.dumps(self.test_product),
         content_type = 'application/json'
         )
+        response_data = json.loads(response.data)
+        self.assertEqual("This product is alrleady in the system",response_data["message"])
+        self.assertEqual(response.status_code, 200)
 
         # test a product code is unique
         response = self.client.post(
-        '/api/v2/users',
-        data = json.dumps(self.test_prouduct2),
+        '/api/v2/products',
+        data = json.dumps(self.test_product2),
         content_type = 'application/json'
         )
 
         response_data = json.loads(response.data)
-        self.assertEqual("This product is alrleady in the system",response_data["message"])
-        self.assertEqual(response.status_code, 201)
+        self.assertEqual("This product id is alrleady used",response_data["message"])
+        self.assertEqual(response.status_code, 200)
 
         # test product price is a number
         response = self.client.post(
-        '/api/v2/users',
+        '/api/v2/products',
         data = json.dumps(self.test_product3),
         content_type = 'application/json'
         )
@@ -76,7 +79,7 @@ class TestProducts(TestBase):
 
         # test product stock is an integer
         response = self.client.post(
-        '/api/v2/users',
+        '/api/v2/products',
         data = json.dumps(self.test_product4),
         content_type = 'application/json'
         )
@@ -87,7 +90,7 @@ class TestProducts(TestBase):
 
         # test product mimimum stock is an integer
         response = self.client.post(
-        '/api/v2/users',
+        '/api/v2/products',
         data = json.dumps(self.test_product5),
         content_type = 'application/json'
         )
@@ -113,7 +116,7 @@ class TestProducts(TestBase):
         )
 
         response_data = json.loads(response.data)
-        self.assertEqual("Product succesfuly added",response_data["message"])
+        self.assertEqual("Air max succesfuly added",response_data["message"])
         self.assertEqual(response.status_code, 201)
 
         response = self.client.get('/api/v2/products')
@@ -121,7 +124,4 @@ class TestProducts(TestBase):
 
         # get a single product by product code
         response = self.client.get('/api/v2/products/t31')
-
-        response_data = json.loads(response.data)
-        self.assertEqual("Air Max was found",response_data["message"])
-        self.assertEqual(response.status_code, 201)
+        self.assertEqual(response.status_code, 200)
