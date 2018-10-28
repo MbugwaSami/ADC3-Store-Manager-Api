@@ -15,12 +15,12 @@ class TestProducts(TestBase):
         #test product has been added
         response = self.client.post(
         '/api/v2/products',
-        data = json.dumps(self.test_add_product),
+        data = json.dumps(self.test_product),
         content_type = 'application/json'
         )
 
         response_data = json.loads(response.data)
-        self.assertEqual("Khaki shirt succesfuly added",response_data["message"])
+        self.assertEqual("khaki Trouser succesfuly added",response_data["message"])
         self.assertEqual(response.status_code, 201)
 
         #test product data is not empty
@@ -108,7 +108,7 @@ class TestProducts(TestBase):
         #get all products
         response = self.client.post(
         '/api/v2/products',
-        data = json.dumps(self.test_add_product6),
+        data = json.dumps(self.test_product6),
         content_type = 'application/json'
         )
 

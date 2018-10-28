@@ -36,13 +36,13 @@ class DbBase(object):
         """
 
 		query2 = """CREATE TABLE if not EXISTS products(
-            product_id Serial  PRIMARY KEY NOT NULL,
+            product_id varchar(20)  NOT NULL,
             product_name varchar(20)  NOT NULL,
-            description varchar(20) NOT NULL,
+            description varchar(20),
+			category varchar(20),
             price integer NOT NULL,
             min_stock integer NOT NULL,
-            stock integer NOT NULL,
-            category varchar(20))
+            stock integer NOT NULL)
         """
 
 

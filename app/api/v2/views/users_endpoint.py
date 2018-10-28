@@ -1,12 +1,9 @@
 from flask import Flask, jsonify, request
 from flask_restful import Resource
-from connection import DbBase
 from ..models.users import Users
 
 
 user_object=Users()
-# endpoin for creating user
-db=DbBase()
 class UsersApi(Resource):
     """
     This class has post and get method of all users.
