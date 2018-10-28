@@ -152,3 +152,47 @@ class TestAuths(TestBase):
 
         response = self.client.get('/api/v2/users')
         self.assertEqual(response.status_code, 200)
+
+
+
+    def test_login(self):
+        """This method test wheather user can login.
+           :param1:client.
+           :param2:user data.
+           :returns:response.
+
+        """
+
+        #test empty login
+        response = self.client.post(
+        '/api/v2/users/login',
+        data = json.dumps({}),
+        content_type = 'application/json'
+        )
+
+        response_data = json.loads(response.data)
+        self.assertEqual("please enter data to login",response_data["message"])
+        self.assertEqual(response.status_code, 200)
+
+        #test valid login
+        response = self.client.post(
+        '/api/v2/users/login',
+        data = json.dumps(self.test_login),
+        content_type = 'application/json'
+        )
+
+        response_data = json.loads(response.data)
+        self.assertEqual("wellcome SAMMY NJAU, you are loged in as attendant",response_data["message"])
+        self.assertEqual(response.status_code, 200)
+
+
+        #test invalid login
+        response = self.client.post(
+        '/api/v2/users/login',
+        data = json.dumps(self.test_login1),
+        content_type = 'application/json'
+        )
+
+        response_data = json.loads(response.data)
+        self.assertEqual("wrong email or password",response_data["message"])
+        self.assertEqual(response.status_code, 200)
