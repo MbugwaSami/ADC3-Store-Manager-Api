@@ -145,3 +145,11 @@ class TestBase(unittest.TestCase):
           stock = 100,
           minStock = 10
           )
+
+		self.update_product =dict(
+          description = "france origin",
+		  category ="Shoes",
+          price = 1500,
+          stock = 80,
+          minStock = 10
+          )

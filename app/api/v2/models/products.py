@@ -67,7 +67,7 @@ class Products(Models):
             self.cur.close
             self.conn.close
 
-    def update_product(self, product_id, product_name, description, category, price, stock, minStock):
+    def update_product(self,description, category, price, stock, minStock):
 
         query = """UPDATE products set description = %s, category = %s, price = %s, stock = %s"+
         "min_stock = %s WHERE product_id = %s  """

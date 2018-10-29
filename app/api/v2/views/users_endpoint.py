@@ -80,6 +80,6 @@ class SingleUserApi(Resource):
         if not user_object.verify_user(email,password):
             return {'message':'wrong email or password'}
         logged_user = user_object.get_one_user(email)
-        names = logged_user[1]
-        role = logged_user[2]
+        names = logged_user["names"]
+        role = logged_user["role"]
         return dict(message = "wellcome "+names +", "+"you are loged in as "+role)
