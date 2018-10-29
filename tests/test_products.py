@@ -134,7 +134,7 @@ class TestProducts(TestBase):
         """
 
         response = self.client.put(
-        '/api/v2/PUT /products/<productId> ',
+        '/api/v2/products/t31',
         data = json.dumps(self.test_product),
         content_type = 'application/json'
         )
@@ -151,12 +151,13 @@ class TestProducts(TestBase):
         """
 
         response = self.client.delete(
-        '/api/v2/PUT /products/<productId> ',
+        '/api/v2/products/r1',
         data = json.dumps(self.test_product),
         content_type = 'application/json'
         )
-
-        response_data = json.loads(response.data)
-        self.assertEqual("Product deleted",response_data["message"])
         self.assertEqual(response.status_code, 200)
-        self.assertFalse(self.client.get('/api/v2/products/t31'))
+
+
+        response = self.client.get('/api/v2/products/r1')
+        response_data = json.loads(response.data)
+        self.assertEqual("product not available",response_data["message"])

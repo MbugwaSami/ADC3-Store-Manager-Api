@@ -80,7 +80,15 @@ class SingleProductApi(Resource):
         This method gets data of a single product.
         returns: details of a single product.
         """
+        if not products_object.get_one_product(product_id):
+            return dict(message = "product not available")
 
         response = jsonify(products_object.get_one_product(product_id))
         response.status_code = 200
         return response
+
+    def delete(self,product_id):
+            response = jsonify(products_object.delete_product(product_id))
+            response.status_code = 200
+
+            return response
