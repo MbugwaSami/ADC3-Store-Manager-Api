@@ -1,5 +1,6 @@
 from flask import Flask, jsonify, request
 from flask_restful import Resource
+
 from ..models.products import Products
 
 products_object = Products()
@@ -80,7 +81,45 @@ class SingleProductApi(Resource):
         This method gets data of a single product.
         returns: details of a single product.
         """
+        if not products_object.get_one_product(product_id):
+            return dict(message = "product not available")
 
         response = jsonify(products_object.get_one_product(product_id))
         response.status_code = 200
+        return response
+
+    def delete(self,product_id):
+            response = jsonify(products_object.delete_product(product_id))
+            response.status_code = 200
+
+            return response
+
+    def put(self,product_id):
+
+        data=request.get_json()
+
+        description = data.get('description')
+        category = data.get('category')
+        price = (data.get('price'))
+        stock = (data.get('stock'))
+        minStock = (data.get('minStock'))
+
+
+        product  = products_object.get_one_product(product_id)
+        if not product:
+            return dict(message = "This product is not in the system")
+        if not category:
+            category = product["category"]
+        if not description:
+            description = product["description"]
+        if not price:
+            price = product["price"]
+        if not stock:
+            qty = product["stock"]
+        if not minStock:
+            minStock=product["minStock"]
+
+        response = jsonify(products_object.update_product(description,category,price,stock,minStock))
+        response.status_code = 200
+
         return response

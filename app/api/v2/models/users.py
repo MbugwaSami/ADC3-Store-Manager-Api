@@ -53,7 +53,7 @@ class Users(Models):
         self.cur.execute("SELECT  password FROM users WHERE email = %s ",(email,))
         result=self.cur.fetchone()
         if result:
-            valid_login = check_password_hash(result[0], password)
+            valid_login = check_password_hash(result["password"], password)
             if not valid_login:
                 return False
             return True

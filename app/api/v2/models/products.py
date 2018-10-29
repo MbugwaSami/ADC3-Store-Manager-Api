@@ -27,9 +27,6 @@ class Products(Models):
             self.cur.close
             self.conn.close
 
-
-
-
         return dict(message = product_name+" succesfuly added")
 
     def get_one_product(self,param):
@@ -51,6 +48,34 @@ class Products(Models):
         try:
             self.cur.execute("SELECT * FROM products")
             return self.cur.fetchall()
+        except Exception as e:
+            self.cur.close
+            self.conn.close
+
+
+    def delete_product(self,product_id):
+        """This method deletes a products from the database.
+           :return:delete message:
+        """
+        if not self.get_one_product(product_id):
+            return dict(message = "This product is not in the system")
+        try:
+            self.cur.execute("DELETE FROM products WHERE product_id = %s", (product_id,))
+            self.cur.commit()
+            return dict(message = "one product deleted")
+        except Exception as e:
+            self.cur.close
+            self.conn.close
+
+    def update_product(self,description, category, price, stock, minStock):
+
+        query = """UPDATE products set description = %s, category = %s, price = %s, stock = %s"+
+        "min_stock = %s WHERE product_id = %s  """
+
+        try:
+            self.cur.execute(query, (description, category, price, stock, minStock,))
+            self.cur.commit()
+            return dict(message = "Updated succesfuly")
         except Exception as e:
             self.cur.close
             self.conn.close

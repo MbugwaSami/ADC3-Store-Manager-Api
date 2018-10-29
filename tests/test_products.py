@@ -125,3 +125,46 @@ class TestProducts(TestBase):
         # get a single product by product code
         response = self.client.get('/api/v2/products/t31')
         self.assertEqual(response.status_code, 200)
+
+    def test_modify_product(self):
+        """This method tests the method for updating product details
+           :param1:client.
+           :products data
+           :returns:response:
+        """
+        # check if updated item exists
+        response = self.client.put(
+        '/api/v2/products/t3oo1',
+        data = json.dumps(self.test_product),
+        content_type = 'application/json'
+        )
+
+        response_data = json.loads(response.data)
+        self.assertEqual("This product is not in the system",response_data["message"])
+        self.assertEqual(response.status_code, 200)
+
+        response = self.client.put(
+        '/api/v2/products/t31',
+        data = json.dumps(self.test_product),
+        content_type = 'application/json'
+        )
+        self.assertEqual(response.status_code, 200)
+
+    def test_delete_product(self):
+        """This method tests the method for deleting a product.
+           :param1:client.
+           :products data
+           :returns:response:
+        """
+
+        response = self.client.delete(
+        '/api/v2/products/r1',
+        data = json.dumps(self.update_product),
+        content_type = 'application/json'
+        )
+        self.assertEqual(response.status_code, 200)
+
+
+        response = self.client.get('/api/v2/products/r1')
+        response_data = json.loads(response.data)
+        self.assertEqual("product not available",response_data["message"])
