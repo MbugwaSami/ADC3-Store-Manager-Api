@@ -1,5 +1,6 @@
 import unittest
 import os
+import json
 from app import create_app
 from instance.config import app_config
 from connection import DbBase
@@ -75,6 +76,17 @@ class TestBase(unittest.TestCase):
 		self.test_login1 = dict(
             email = "njau.sammy@gmail.com",
             password = "Mwobok",
+            )
+
+		self.owner_login = dict(
+            email = "sam@gmail.com",
+            password = "Sammy10@",
+            )
+
+
+		self.owner_login1 = dict(
+            email = "sam@gmai.com",
+            password = "Sammy10@",
             )
 
 		self.test_product =dict(
@@ -153,3 +165,9 @@ class TestBase(unittest.TestCase):
           stock = 80,
           minStock = 10
           )
+		response = self.client.post(
+           '/api/v2/users/login',
+            data = json.dumps(self.owner_login),
+            content_type = 'application/json'
+            )
+		self.owner_token = json.loads(response.data.decode())['token']

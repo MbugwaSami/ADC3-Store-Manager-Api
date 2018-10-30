@@ -8,7 +8,7 @@ class ProductsApi(Resource):
     """
     This class endpoints for products.
     """
-
+     
     def post(self):
         """"
         This method posts data of a product.
