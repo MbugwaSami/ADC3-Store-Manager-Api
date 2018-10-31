@@ -5,7 +5,6 @@ from tests import TestBase
 # class for testing test_user
 class TestAuths(TestBase):
     """This class has methods that test methods used in manipulation of user data."""
-
     def test_create_account(self):
 
         """This method tests wheather a user account has been created.
@@ -14,6 +13,13 @@ class TestAuths(TestBase):
            :returns:response:
         """
 
+
+        response = self.client.post(
+        '/api/v2/users/login',
+        data = json.dumps(self.owner_login),
+        content_type = 'application/json'
+        )
+        self.owner_token = json.loads(response.data.decode())['token']
         # test create user
         response = self.client.post(
         '/api/v2/users',
@@ -26,13 +32,8 @@ class TestAuths(TestBase):
         self.assertEqual(response_data["message"],"User account succesfuly created")
         self.assertEqual(response.status_code, 201)
 
-    def test_user_data_is_not_empty(self):
 
-        """This method tests wheather  user data is supplied.
-           :param1:client.
-           :returns:response:
-        """
-
+         # test empty user data
         response = self.client.post(
         '/api/v2/users',
         data = json.dumps({}),
@@ -40,10 +41,12 @@ class TestAuths(TestBase):
         content_type = 'application/json'
         )
 
+
         response_data = json.loads(response.data)
         self.assertEqual(response_data["message"],"Fields cannot be empty")
         self.assertEqual(response.status_code, 200)
 
+        # tesrt data with some empty field
         response = self.client.post(
         '/api/v2/users',
         data = json.dumps(self.test_user5),
@@ -56,15 +59,7 @@ class TestAuths(TestBase):
         self.assertEqual(response.status_code, 200)
 
 
-
-    def test_user_exists(self):
-        """This method tests wheather a user account alrleady exists.
-           :param1:client.
-           :param2:user data.
-           :returns:response:
-        """
-
-
+        # test user exist
         response = self.client.post(
         '/api/v2/users',
         data = json.dumps(self.test_user1),
@@ -87,12 +82,7 @@ class TestAuths(TestBase):
         self.assertEqual(response_data["message"],"User account alrleady exists")
         self.assertEqual(response.status_code, 200)
 
-    def test_email_is_valid(self):
-        """This method tests wheather user email is valaid.
-           :param1:client
-           :param2:user data
-           :returns:response.
-        """
+       # test email is valid
         response = self.client.post(
         '/api/v2/users',
         data = json.dumps(self.test_user2),
@@ -104,13 +94,8 @@ class TestAuths(TestBase):
         self.assertEqual(response_data["message"],"Please enter a valaid email")
         self.assertEqual(response.status_code, 200)
 
-    def test_password_strength(self):
-        """This method checks wheather password meets strength criteria
-           :param1:client.
-           :param2:user data.
-           returns:response.
-        """
 
+        # test password is strong
         response = self.client.post(
         '/api/v2/users',
         data = json.dumps(self.test_user3),
@@ -123,14 +108,7 @@ class TestAuths(TestBase):
         +"one Upper_case,one number and one special character")
         self.assertEqual(response.status_code, 200)
 
-    def test_role_is_valid(self):
-        """This method test wheather user role is checkedself.
-           :param1:client.
-           :param2:user data.
-           :returns:response.
-
-        """
-
+        # test role is valid
         response = self.client.post(
         '/api/v2/users',
         data = json.dumps(self.test_user4),
@@ -148,6 +126,13 @@ class TestAuths(TestBase):
            :param2:user data.
            :returns:response.
         """
+
+        response = self.client.post(
+        '/api/v2/users/login',
+        data = json.dumps(self.owner_login),
+        content_type = 'application/json'
+        )
+        self.owner_token = json.loads(response.data.decode())['token']
 
         response = self.client.post(
         '/api/v2/users',
@@ -194,8 +179,10 @@ class TestAuths(TestBase):
         )
 
         response_data = json.loads(response.data)
+        attendant_token = json.loads(response.data.decode())['token']
         self.assertEqual(response_data["message"],"wellcome SAMMY NJAU, you are loged in as attendant")
         self.assertEqual(response.status_code, 200)
+        logged_token = self.owner_token = json.loads(response.data.decode())['token']
 
 
         #test invalid login
@@ -205,9 +192,19 @@ class TestAuths(TestBase):
         content_type = 'application/json'
         )
 
-
         response_data = json.loads(response.data)
         self.assertEqual(response_data["message"],"wrong email or password")
         self.assertEqual(response.status_code, 200)
 
+
+        # test create user by attendant
+        response = self.client.post(
+        '/api/v2/users',
+        data = json.dumps(self.test_user7),
+        headers=dict(Authorization="Bearer " + logged_token),
+        content_type = 'application/json'
+        )
+
+        response_data = json.loads(response.data)
+        self.assertEqual(response_data["message"],"You are not allowed to perform this action, contact the system admin!")
         

@@ -15,17 +15,7 @@ def create_app(config_name):
     app.config['JWT_SECRET_KEY'] = 'mysecretkey code'
     jwt = JWTManager(app)
 
-    
-    def admin_required(fn):
-        @wraps(fn)
-        def wrapper(*args, **kwargs):
-            verify_jwt_in_request()
-            claims = get_jwt_claims()
-            if claims['roles'] != 'admin':
-                return jsonify(message='Only Admin is allowed!'), 403
-            else:
-                return fn(*args, **kwargs)
-        return wrapper
+
 
     @jwt.user_identity_loader
     def user_identity_lookup(logged_user):

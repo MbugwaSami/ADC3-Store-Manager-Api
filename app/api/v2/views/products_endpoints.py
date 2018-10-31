@@ -1,5 +1,7 @@
 from flask import Flask, jsonify, request
 from flask_restful import Resource
+from flask_jwt_extended import (
+    JWTManager, jwt_required, create_access_token, get_jwt_claims)
 
 from ..models.products import Products
 
@@ -8,7 +10,7 @@ class ProductsApi(Resource):
     """
     This class endpoints for products.
     """
-     
+    @jwt_required
     def post(self):
         """"
         This method posts data of a product.
@@ -18,15 +20,17 @@ class ProductsApi(Resource):
         raises:price must be a number message.
         raises:stock must be an integer messager.
         """
-
+        claims = get_jwt_claims()
+        if claims['role'] != "admin":
+            return jsonify({'message':'You are not allowed to perform this action, contact the system admin!'})
 
         data=request.get_json()
 
         if not data:
             return {'message':'Products data cannot be empty'}
 
-        product_id = data.get('product_id')
-        product_name = data.get('product_name')
+        product_id = data.get('product_id').lower()
+        product_name = data.get('product_name').lower()
         description = data.get('description')
         category = data.get('category')
         price = (data.get('price'))
@@ -63,6 +67,7 @@ class ProductsApi(Resource):
 
         return response
 
+    @jwt_required
     def get(self):
 
         """"
@@ -75,7 +80,7 @@ class ProductsApi(Resource):
 
 class SingleProductApi(Resource):
     """This is the class with get method for a single product"""
-
+    @jwt_required
     def get(self,product_id):
         """
         This method gets data of a single product.
@@ -87,14 +92,24 @@ class SingleProductApi(Resource):
         response = jsonify(products_object.get_one_product(product_id))
         response.status_code = 200
         return response
+    @jwt_required
 
     def delete(self,product_id):
+
+            claims = get_jwt_claims()
+            if claims['role'] != "admin":
+                return jsonify({'message':'You are not allowed to perform this action, contact the system admin!'})
             response = jsonify(products_object.delete_product(product_id))
             response.status_code = 200
 
             return response
 
+    @jwt_required
     def put(self,product_id):
+
+        claims = get_jwt_claims()
+        if claims['role'] != "admin":
+            return jsonify({'message':'You are not allowed to perform this action, contact the system admin!'})
 
         data=request.get_json()
 
@@ -107,7 +122,7 @@ class SingleProductApi(Resource):
 
         product  = products_object.get_one_product(product_id)
         if not product:
-            return dict(message = "This product is not in the system")
+            return jsonify(dict(message = "This product is not in the system"))
         if not category:
             category = product["category"]
         if not description:

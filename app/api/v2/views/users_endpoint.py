@@ -13,7 +13,6 @@ class UsersApi(Resource):
     This class has post and get method of all users.
     """
     @jwt_required
-    @admin_required
     def post(self):
         """"
         This method posts data of a user.
@@ -22,6 +21,10 @@ class UsersApi(Resource):
 
 
         """
+        claims = get_jwt_claims()
+        if claims['role'] != "admin":
+            return jsonify({'message':'You are not allowed to perform this action, contact the system admin!'})
+
         data=request.get_json()
         if not data:
             return {'message':'Fields cannot be empty'}

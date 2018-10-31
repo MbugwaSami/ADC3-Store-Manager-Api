@@ -68,6 +68,18 @@ class TestBase(unittest.TestCase):
             role = "attendant",
             )
 
+		self.test_user7 = dict(
+            email = "sammy@gmail.com",
+            names = "sammy njau",
+            password = "Mwoboko10@",
+            role = "attendant",
+            )
+
+		self.test_login = dict(
+            email = "sammy@gmail.com",
+            password = "Mwoboko10@",
+            )
+
 		self.test_login = dict(
             email = "samiNjau@gmail.com",
             password = "Mwoboko10@",
@@ -76,6 +88,11 @@ class TestBase(unittest.TestCase):
 		self.test_login1 = dict(
             email = "njau.sammy@gmail.com",
             password = "Mwobok",
+            )
+
+		self.test_login2 = dict(
+            email = "sammy@gmail.com",
+            password = "Mwoboko10@",
             )
 
 		self.owner_login = dict(
@@ -158,6 +175,17 @@ class TestBase(unittest.TestCase):
           minStock = 10
           )
 
+		self.test_product7 =dict(
+          product_id = "g61",
+          product_name = "Air force",
+          description = "italian export",
+		  category ="Shoes",
+          price = 1000,
+          stock = 100,
+          minStock = 10
+          )
+
+
 		self.update_product =dict(
           description = "france origin",
 		  category ="Shoes",
@@ -165,9 +193,3 @@ class TestBase(unittest.TestCase):
           stock = 80,
           minStock = 10
           )
-		response = self.client.post(
-           '/api/v2/users/login',
-            data = json.dumps(self.owner_login),
-            content_type = 'application/json'
-            )
-		self.owner_token = json.loads(response.data.decode())['token']
