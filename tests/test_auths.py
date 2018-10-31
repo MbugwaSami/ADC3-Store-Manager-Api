@@ -1,6 +1,6 @@
 import json
 
-from tests import TestBase
+from .base_test import TestBase
 
 # class for testing test_user
 class TestAuths(TestBase):
@@ -91,7 +91,7 @@ class TestAuths(TestBase):
         )
 
         response_data = json.loads(response.data)
-        self.assertEqual(response_data["message"],"Please enter a valaid email")
+        self.assertEqual(response_data["message"],"Please enter a valid email")
         self.assertEqual(response.status_code, 200)
 
 
@@ -181,7 +181,7 @@ class TestAuths(TestBase):
         response_data = json.loads(response.data)
         attendant_token = json.loads(response.data.decode())['token']
         self.assertEqual(response_data["message"],"wellcome SAMMY NJAU, you are loged in as attendant")
-        self.assertEqual(response.status_code, 200)
+        self.assertEqual(response.status_code, 201)
         logged_token = self.owner_token = json.loads(response.data.decode())['token']
 
 
@@ -194,7 +194,7 @@ class TestAuths(TestBase):
 
         response_data = json.loads(response.data)
         self.assertEqual(response_data["message"],"wrong email or password")
-        self.assertEqual(response.status_code, 200)
+        self.assertEqual(response.status_code, 401)
 
 
         # test create user by attendant
@@ -207,4 +207,4 @@ class TestAuths(TestBase):
 
         response_data = json.loads(response.data)
         self.assertEqual(response_data["message"],"You are not allowed to perform this action, contact the system admin!")
-        
+        self.assertEqual(response.status_code, 401)

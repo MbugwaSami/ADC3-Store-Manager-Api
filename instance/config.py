@@ -10,7 +10,7 @@ class Config(object):
 class DevelopmentConfig(Config):
     "Configurations for Development"
     DEBUG = True
-    connectionVariables="dbname='store-manager' user='postgres' password='Mwoboko10@' host='localhost' port='5432'"
+    connectionVariables="dbname='Database_store' user='postgres' password='Mwoboko10@' host='localhost' port='5432'"
     os.environ['ENVIRONMENT']='development'
 
 class TestingConfig(Config):

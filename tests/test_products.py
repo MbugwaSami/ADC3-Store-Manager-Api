@@ -1,6 +1,6 @@
 import json
 
-from tests import TestBase
+from .base_test import TestBase
 
 class TestProducts(TestBase):
     """This class has methods that test methods used in manipulation of product data."""
@@ -146,7 +146,9 @@ class TestProducts(TestBase):
         response = self.client.get(
         '/api/v2/products',
         headers=dict(Authorization="Bearer " + self.owner_token),)
+        response_data = json.loads(response.data)
         self.assertEqual(response.status_code, 200)
+        
 
         # get a single product by product code
         response = self.client.get(
@@ -250,7 +252,7 @@ class TestProducts(TestBase):
         response_data = json.loads(response.data)
         self.attendant_token = json.loads(response.data.decode())['token']
         self.assertEqual(response_data["message"],"wellcome SAMMY NJAU, you are loged in as attendant")
-        self.assertEqual(response.status_code, 200)
+        self.assertEqual(response.status_code, 201)
 
         response = self.client.post(
         '/api/v2/products',
@@ -261,3 +263,24 @@ class TestProducts(TestBase):
 
         response_data = json.loads(response.data)
         self.assertEqual(response_data["message"],"You are not allowed to perform this action, contact the system admin!")
+        self.assertEqual(response.status_code, 401)
+
+        response = self.client.delete(
+        '/api/v2/products/r1',
+        data = json.dumps(self.update_product),
+        headers=dict(Authorization="Bearer " + self.attendant_token),
+        content_type = 'application/json'
+        )
+        response_data = json.loads(response.data)
+        self.assertEqual(response_data["message"],"You are not allowed to perform this action, contact the system admin!")
+        self.assertEqual(response.status_code, 401)
+
+
+        response = self.client.put(
+        '/api/v2/products/t31',
+        data = json.dumps(self.test_product),
+        headers=dict(Authorization="Bearer " + self.attendant_token),
+        content_type = 'application/json'
+        )
+        self.assertEqual(response_data["message"],"You are not allowed to perform this action, contact the system admin!")
+        self.assertEqual(response.status_code, 401)

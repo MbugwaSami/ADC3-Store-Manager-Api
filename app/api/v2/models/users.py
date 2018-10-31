@@ -1,7 +1,7 @@
 from werkzeug.security import generate_password_hash, check_password_hash
 import re
 
-from ..models import Models
+from .base_model import Models
 
 enviroment="development"
 class Users(Models):

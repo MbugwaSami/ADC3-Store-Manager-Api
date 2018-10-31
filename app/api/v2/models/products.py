@@ -1,4 +1,4 @@
-from ..models import Models
+from .base_model import Models
 
 class Products(Models):
     """
@@ -61,20 +61,21 @@ class Products(Models):
             return dict(message = "This product is not in the system")
         try:
             self.cur.execute("DELETE FROM products WHERE product_id = %s", (product_id,))
-            self.cur.commit()
+            self.conn.commit()
             return dict(message = "one product deleted")
         except Exception as e:
             self.cur.close
             self.conn.close
 
-    def update_product(self,description, category, price, stock, minStock):
+    def update_product(self,product_id,description, category, price, stock, minStock):
 
         query = """UPDATE products set description = %s, category = %s, price = %s, stock = %s"+
         "min_stock = %s WHERE product_id = %s  """
 
         try:
-            self.cur.execute(query, (description, category, price, stock, minStock,))
-            self.cur.commit()
+            self.cur.execute(query, (description, category, price, stock, minStock,product_id,))
+            print(oo)
+            self.conn.commit()
             return dict(message = "Updated succesfuly")
         except Exception as e:
             self.cur.close

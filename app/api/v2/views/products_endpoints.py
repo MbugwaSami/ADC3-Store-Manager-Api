@@ -1,4 +1,4 @@
-from flask import Flask, jsonify, request
+from flask import Flask, jsonify, request, make_response
 from flask_restful import Resource
 from flask_jwt_extended import (
     JWTManager, jwt_required, create_access_token, get_jwt_claims)
@@ -22,12 +22,12 @@ class ProductsApi(Resource):
         """
         claims = get_jwt_claims()
         if claims['role'] != "admin":
-            return jsonify({'message':'You are not allowed to perform this action, contact the system admin!'})
+            return make_response(jsonify({'message':'You are not allowed to perform this action, contact the system admin!'}),401)
 
         data=request.get_json()
 
         if not data:
-            return {'message':'Products data cannot be empty'}
+            return make_response(jsonify({'message':'Products data cannot be empty'}),200)
 
         product_id = data.get('product_id').lower()
         product_name = data.get('product_name').lower()
@@ -40,30 +40,30 @@ class ProductsApi(Resource):
         required_data = [product_id, product_name, description, category, price, stock, minStock]
         for field in required_data:
             if not field:
-                return dict(message = "Some required data fields are empty! only description and category can be empty")
+                return make_response(jsonify({"message": "Some required data fields are empty! only description and category can be empty"}),200)
 
         if products_object.get_one_product(product_name):
             return dict(message = "This product is alrleady in the system")
 
         if products_object.get_one_product(product_id):
-            return dict(message = "This product id is alrleady used")
+            return make_response(jsonify({"message": "This product id is alrleady used"}),200)
         try:
             price = float(price)
         except ValueError:
-            return dict(message = "Product price can only be a number")
+            return make_response(jsonify({"message":"Product price can only be a number"}),200)
 
 
         if type((stock)) is not int:
 
-            return {'message':'Stock can only be an integer'}
+            return make_response(jsonify({'message':'Stock can only be an integer'}),200)
 
         if type((minStock)) is not int:
 
-            return {'message':'Minimum Stock can only be an integer'}
+            return make_response(jsonify({'message':'Minimum Stock can only be an integer'}),200)
 
 
-        response = jsonify(products_object.add_product(product_id,product_name,description,category,price,stock,minStock))
-        response.status_code = 201
+        response = make_response(jsonify(products_object.add_product(product_id,product_name,description,category,price,stock,minStock)),201)
+
 
         return response
 
@@ -74,8 +74,7 @@ class ProductsApi(Resource):
         This method gets data of all products.
         returns:items details
         """
-        response = jsonify(products_object.get_products())
-        response.status_code = 200
+        response = make_response(jsonify(products_object.get_products()),200)
         return response
 
 class SingleProductApi(Resource):
@@ -86,10 +85,11 @@ class SingleProductApi(Resource):
         This method gets data of a single product.
         returns: details of a single product.
         """
+        print(product_id)
         if not products_object.get_one_product(product_id):
             return dict(message = "product not available")
 
-        response = jsonify(products_object.get_one_product(product_id))
+        response = make_response(jsonify(products_object.get_one_product(product_id)),200)
         response.status_code = 200
         return response
     @jwt_required
@@ -98,9 +98,8 @@ class SingleProductApi(Resource):
 
             claims = get_jwt_claims()
             if claims['role'] != "admin":
-                return jsonify({'message':'You are not allowed to perform this action, contact the system admin!'})
-            response = jsonify(products_object.delete_product(product_id))
-            response.status_code = 200
+                return make_response(jsonify({'message':'You are not allowed to perform this action, contact the system admin!'}),401)
+            response = make_response(jsonify(products_object.delete_product(product_id)),200)
 
             return response
 
@@ -109,7 +108,7 @@ class SingleProductApi(Resource):
 
         claims = get_jwt_claims()
         if claims['role'] != "admin":
-            return jsonify({'message':'You are not allowed to perform this action, contact the system admin!'})
+            return make_response(jsonify({'message':'You are not allowed to perform this action, contact the system admin!'}),401)
 
         data=request.get_json()
 
@@ -122,7 +121,7 @@ class SingleProductApi(Resource):
 
         product  = products_object.get_one_product(product_id)
         if not product:
-            return jsonify(dict(message = "This product is not in the system"))
+            return make_response(jsonify({"message":"This product is not in the system"}),200)
         if not category:
             category = product["category"]
         if not description:
@@ -134,7 +133,6 @@ class SingleProductApi(Resource):
         if not minStock:
             minStock=product["minStock"]
 
-        response = jsonify(products_object.update_product(description,category,price,stock,minStock))
-        response.status_code = 200
+        response = make_response(jsonify(products_object.update_product(product_id,description,category,price,stock,minStock)),200)
 
         return response
