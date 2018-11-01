@@ -7,7 +7,7 @@ from ..models.sales import Sales
 from ..models.products import Products
 
 
-buyer_cart =[]
+buyer_cart = []
 current_product = {}
 
 class SalesApi(Resource):

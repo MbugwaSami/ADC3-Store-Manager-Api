@@ -26,11 +26,13 @@ class Sales():
 
         returns: user added messages.
         """
-        print(self.buyer_cart)
+
         try:
             self.cur.executemany("""INSERT INTO sales(product_name,quantity,subtotal,user_id)
              VALUES(%(product_name)s,%(quantity)s,%(subtotal)s,%(user_id)s)""",
             self.buyer_cart)
+            self.conn.commit()
+            self.cur.executemany("UPDATE products set stock = stock - %(quantity)s where product_id = %(product_id)s",self.buyer_cart)
             self.conn.commit()
         except Exception as e:
             self.cur.close()
