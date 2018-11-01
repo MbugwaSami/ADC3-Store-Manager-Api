@@ -6,6 +6,7 @@ import os
 from instance.config import app_config
 
 
+
 enviroment = os.environ['ENVIRONMENT']
 class Users():
     """

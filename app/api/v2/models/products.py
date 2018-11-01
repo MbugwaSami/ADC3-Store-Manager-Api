@@ -106,8 +106,8 @@ class Products():
         # "min_stock = %s WHERE product_id = %s  """
 
         try:
-            self.cur.execute("UPDATE products set description = %s , category = %s,price = %s"+
-            "where product_id = %s", (self.description,self.category,self.price,product_id,))
+            self.cur.execute("UPDATE products set description = %s , category = %s,price = %s,stock = %s,min_stock =%s"+
+            "where product_id = %s", (self.description,self.category,self.price,self.stock,self.stock,product_id,))
             self.conn.commit()
             return dict(message = "Updated succesfuly")
         except Exception as e:
