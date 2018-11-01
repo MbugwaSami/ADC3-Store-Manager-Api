@@ -36,9 +36,9 @@ class DbBase(object):
         """
 
 		query2 = """CREATE TABLE if not EXISTS products(
-            product_id varchar(20)  NOT NULL,
+            product_id serial  NOT NULL,
             product_name varchar(20)  NOT NULL,
-            description varchar(20),
+            description varchar(200),
 			category varchar(20),
             price integer NOT NULL,
             min_stock integer NOT NULL,
@@ -47,12 +47,9 @@ class DbBase(object):
 
 
 		query3 = """CREATE TABLE if not EXISTS sales(
-            sale_id Serial  PRIMARY KEY NOT NULL,
-            items varchar(20) NOT NULL,
-            item_count integer NOT NULL,
-            price integer NOT NULL,
-            user_id varchar(20) NOT NULL,
-            date_created timestamp)
+            product_id varchar(20) NOT NULL,
+			quantity INTEGER NOT NULL,
+			subtotal INTEGER NOT NULL)
 		"""
 
 		queries=[query1,query2,query3]
