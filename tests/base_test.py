@@ -106,6 +106,16 @@ class TestBase(unittest.TestCase):
             password = "Sammy10@",
             )
 
+		self.test_sale_product =dict(
+		    product_id = "r45",
+            product_name = "khaki Trouser",
+            description = "italian export",
+			category = "clothes",
+            price = 1000,
+            stock = 10,
+            minStock = 10
+            )
+
 		self.test_product =dict(
 		    product_id = "r1",
             product_name = "khaki Trouser",

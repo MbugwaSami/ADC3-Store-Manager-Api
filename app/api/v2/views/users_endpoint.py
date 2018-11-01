@@ -1,3 +1,4 @@
+
 from flask import Flask, jsonify, request, make_response
 from flask_restful import Resource
 from app import create_app
@@ -7,7 +8,6 @@ from ..models.users import Users
 
 
 
-user_object=Users()
 class UsersApi(Resource):
     """
     This class has post and get method of all users.
@@ -33,25 +33,25 @@ class UsersApi(Resource):
         names = data.get('names').upper()
         password = data.get('password')
         role = data.get('role').lower()
-
+        user1 = Users(email,names,password,role)
         user_details = [email,names,password,role]
         for field in user_details:
             if not field or field.isspace():
                 return make_response(jsonify({'message':'Some fields are empty!'}),200)
 
-        if not user_object.validate_email(email):
+        if not user1.validate_email():
             return make_response(jsonify({'message':'Please enter a valid email'}),200)
 
-        if user_object.get_one_user(email):
+        if user1.get_one_user():
             return make_response(jsonify({'message':'User account alrleady exists'}),200)
 
         if not (role == "admin" or role == "attendant"):
             return make_response(jsonify({'message':'Roles can only be admin or attendant'}),200)
 
-        if not user_object.validate_password(password):
+        if not user1.validate_password():
             return make_response(jsonify({'message':'password should be between 6 and 12 characters, have atleast one lower_case,'+
             'one Upper_case,one number and one special character'}),200)
-        response = make_response(jsonify(user_object.add_user(email,names,password,role)),201)
+        response = make_response(jsonify(user1.add_user()),201)
         return response
     @jwt_required
     def get(self):
@@ -60,7 +60,7 @@ class UsersApi(Resource):
         returns:Details of a users.
         """
 
-        users = user_object.get_all_users()
+        users = user1.get_all_users()
 
         response = make_response(jsonify({"This are users in the system":users}),200)
 
@@ -81,10 +81,10 @@ class SingleUserApi(Resource):
             return {'message':'please enter data to login'}
         email = data.get('email').lower()
         password = data.get('password')
-
-        if not user_object.verify_user(email,password):
+        user2 = Users(email,password)
+        if not user2.verify_user():
             return make_response(jsonify({"message": "wrong email or password"}),401)
-        logged_user = user_object.get_one_user(email)
+        logged_user = user2.get_one_user()
         names = logged_user["names"]
         role = logged_user["role"]
         access_token = create_access_token(identity = logged_user)

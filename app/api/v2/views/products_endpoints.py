@@ -5,7 +5,7 @@ from flask_jwt_extended import (
 
 from ..models.products import Products
 
-products_object = Products()
+
 class ProductsApi(Resource):
     """
     This class endpoints for products.
@@ -29,7 +29,7 @@ class ProductsApi(Resource):
         if not data:
             return make_response(jsonify({'message':'Products data cannot be empty'}),200)
 
-        product_id = data.get('product_id').lower()
+
         product_name = data.get('product_name').lower()
         description = data.get('description')
         category = data.get('category')
@@ -37,16 +37,16 @@ class ProductsApi(Resource):
         stock = (data.get('stock'))
         minStock = (data.get('minStock'))
 
-        required_data = [product_id, product_name, description, category, price, stock, minStock]
+        product1 = Products(product_name, description, category, price, stock, minStock)
+
+        required_data = [product_name, description, category, price, stock, minStock]
         for field in required_data:
             if not field:
                 return make_response(jsonify({"message": "Some required data fields are empty! only description and category can be empty"}),200)
 
-        if products_object.get_one_product(product_name):
+        if product1.get_product_by_name():
             return dict(message = "This product is alrleady in the system")
 
-        if products_object.get_one_product(product_id):
-            return make_response(jsonify({"message": "This product id is alrleady used"}),200)
         try:
             price = float(price)
         except ValueError:
@@ -62,7 +62,7 @@ class ProductsApi(Resource):
             return make_response(jsonify({'message':'Minimum Stock can only be an integer'}),200)
 
 
-        response = make_response(jsonify(products_object.add_product(product_id,product_name,description,category,price,stock,minStock)),201)
+        response = make_response(jsonify(product1.add_product()),201)
 
 
         return response
@@ -70,11 +70,16 @@ class ProductsApi(Resource):
     @jwt_required
     def get(self):
 
+        product3 = Products()
         """"
         This method gets data of all products.
         returns:items details
         """
-        response = make_response(jsonify(products_object.get_products()),200)
+
+        products = product3.get_products()
+        if not products:
+            return make_response(jsonify({"message":"no product available in the system"}),200)
+        response = make_response(jsonify({products}),200)
         return response
 
 class SingleProductApi(Resource):
@@ -85,26 +90,26 @@ class SingleProductApi(Resource):
         This method gets data of a single product.
         returns: details of a single product.
         """
-        print(product_id)
-        if not products_object.get_one_product(product_id):
-            return dict(message = "product not available")
+        product2 = Products(product_id)
+        if not product2.get_product_by_id():
+            return make_response(jsonify({"message":"product not available"}))
 
-        response = make_response(jsonify(products_object.get_one_product(product_id)),200)
-        response.status_code = 200
+        response = make_response(jsonify(product2.get_product_by_id()),200)
         return response
+
     @jwt_required
-
     def delete(self,product_id):
-
+            product3 = Products(product_id)
             claims = get_jwt_claims()
             if claims['role'] != "admin":
                 return make_response(jsonify({'message':'You are not allowed to perform this action, contact the system admin!'}),401)
-            response = make_response(jsonify(products_object.delete_product(product_id)),200)
+            response = make_response(jsonify(product3.delete_product()),200)
 
             return response
 
     @jwt_required
     def put(self,product_id):
+
 
         claims = get_jwt_claims()
         if claims['role'] != "admin":
@@ -117,9 +122,10 @@ class SingleProductApi(Resource):
         price = (data.get('price'))
         stock = (data.get('stock'))
         minStock = (data.get('minStock'))
+        product4 = Products(product_id,description,category,price,stock,minStock)
 
 
-        product  = products_object.get_one_product(product_id)
+        product  = product4.get_product_by_id()
         if not product:
             return make_response(jsonify({"message":"This product is not in the system"}),200)
         if not category:
@@ -133,6 +139,6 @@ class SingleProductApi(Resource):
         if not minStock:
             minStock=product["minStock"]
 
-        response = make_response(jsonify(products_object.update_product(product_id,description,category,price,stock,minStock)),200)
+        response = make_response(jsonify(product4.update_product()),200)
 
         return response
