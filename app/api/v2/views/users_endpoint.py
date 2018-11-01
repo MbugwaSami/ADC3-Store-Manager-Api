@@ -60,7 +60,7 @@ class UsersApi(Resource):
         This method gets data of all users.
         returns:Details of a users.
         """
-
+        user1 = Users()
         users = user1.get_all_users()
 
         response = make_response(jsonify({"This are users in the system":users}),200)

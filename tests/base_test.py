@@ -86,7 +86,7 @@ class TestBase(unittest.TestCase):
             )
 
 		self.test_login1 = dict(
-            email = "njau.sammy@gmail.com",
+            email = "njau.sammyl.com",
             password = "Mwobok",
             )
 
@@ -107,7 +107,6 @@ class TestBase(unittest.TestCase):
             )
 
 		self.test_sale_product =dict(
-		    product_id = "r45",
             product_name = "khaki Trouser",
             description = "italian export",
 			category = "clothes",
@@ -117,7 +116,6 @@ class TestBase(unittest.TestCase):
             )
 
 		self.test_product =dict(
-		    product_id = "r1",
             product_name = "khaki Trouser",
             description = "italian export",
 			category = "clothes",
@@ -127,7 +125,6 @@ class TestBase(unittest.TestCase):
             )
 
 		self.test_product1 =dict(
-            product_id = "",
             product_name = "",
             description = "italian export",
 		    category = "clothes",
@@ -137,7 +134,6 @@ class TestBase(unittest.TestCase):
            )
 
 		self.test_product2 =dict(
-           product_id = "r1",
            product_name = "khaki shirt",
            description = "italian export",
 		   category = "clothes",
@@ -147,7 +143,6 @@ class TestBase(unittest.TestCase):
            )
 
 		self.test_product3 =dict(
-          product_id = "r34",
           product_name = "Legsin Trouser",
           description = "italian export",
 		  category = "clothes",
@@ -157,7 +152,6 @@ class TestBase(unittest.TestCase):
           )
 
 		self.test_product4 =dict(
-          product_id = "q3",
           product_name = "legsin shirt",
           description = "italian export",
 	   	  category = "clothes",
@@ -167,7 +161,6 @@ class TestBase(unittest.TestCase):
           )
 
 		self.test_product5 =dict(
-          product_id = "t3",
           product_name = "AirForce shoe",
           description = "italian export",
 		  category = "shoes",
@@ -176,7 +169,6 @@ class TestBase(unittest.TestCase):
           minStock = "sammmy"
           )
 		self.test_product6 =dict(
-          product_id = "t31",
           product_name = "Air max",
           description = "italian export",
 		  category ="Shoes",
@@ -186,7 +178,6 @@ class TestBase(unittest.TestCase):
           )
 
 		self.test_product7 =dict(
-          product_id = "g61",
           product_name = "Air force",
           description = "italian export",
 		  category ="Shoes",

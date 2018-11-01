@@ -68,17 +68,6 @@ class TestProducts(TestBase):
         self.assertEqual("This product is alrleady in the system",response_data["message"])
         self.assertEqual(response.status_code, 200)
 
-        # test a product code is unique
-        response = self.client.post(
-        '/api/v2/products',
-        data = json.dumps(self.test_product2),
-        headers=dict(Authorization="Bearer " + self.owner_token),
-        content_type = 'application/json'
-        )
-
-        response_data = json.loads(response.data)
-        self.assertEqual("This product id is alrleady used",response_data["message"])
-        self.assertEqual(response.status_code, 200)
 
         # test product price is a number
         response = self.client.post(
@@ -148,12 +137,12 @@ class TestProducts(TestBase):
         headers=dict(Authorization="Bearer " + self.owner_token),)
         response_data = json.loads(response.data)
         self.assertEqual(response.status_code, 200)
-        
+
 
         # get a single product by product code
         response = self.client.get(
-        '/api/v2/products/t31',
-        headers=dict(Authorization="Bearer " + self.owner_token),)
+        '/api/v2/products/2',
+        headers=dict(Authorization="Bearer " + self.owner_token))
         self.assertEqual(response.status_code, 200)
 
     def test_modify_product(self):
@@ -170,7 +159,7 @@ class TestProducts(TestBase):
         self.owner_token = json.loads(response.data.decode())['token']
         # check if updated item exists
         response = self.client.put(
-        '/api/v2/products/t3oo1',
+        '/api/v2/products/8888',
         headers=dict(Authorization="Bearer " + self.owner_token),
         data = json.dumps(self.test_product),
         content_type = 'application/json'
@@ -181,7 +170,7 @@ class TestProducts(TestBase):
         self.assertEqual(response.status_code, 200)
 
         response = self.client.put(
-        '/api/v2/products/t31',
+        '/api/v2/products/2',
         data = json.dumps(self.test_product),
         headers=dict(Authorization="Bearer " + self.owner_token),
         content_type = 'application/json'
@@ -203,16 +192,14 @@ class TestProducts(TestBase):
         self.owner_token = json.loads(response.data.decode())['token']
 
         response = self.client.delete(
-        '/api/v2/products/r1',
-        data = json.dumps(self.update_product),
-        headers=dict(Authorization="Bearer " + self.owner_token),
-        content_type = 'application/json'
+        '/api/v2/products/1',
+        headers=dict(Authorization="Bearer " + self.owner_token)
         )
         self.assertEqual(response.status_code, 200)
 
 
         response = self.client.get(
-        '/api/v2/products/r1',
+        '/api/v2/products/1',
         headers=dict(Authorization="Bearer " + self.owner_token))
         response_data = json.loads(response.data)
         self.assertEqual("product not available",response_data["message"])
@@ -266,7 +253,7 @@ class TestProducts(TestBase):
         self.assertEqual(response.status_code, 401)
 
         response = self.client.delete(
-        '/api/v2/products/r1',
+        '/api/v2/products/2',
         data = json.dumps(self.update_product),
         headers=dict(Authorization="Bearer " + self.attendant_token),
         content_type = 'application/json'
@@ -277,7 +264,7 @@ class TestProducts(TestBase):
 
 
         response = self.client.put(
-        '/api/v2/products/t31',
+        '/api/v2/products/2',
         data = json.dumps(self.test_product),
         headers=dict(Authorization="Bearer " + self.attendant_token),
         content_type = 'application/json'

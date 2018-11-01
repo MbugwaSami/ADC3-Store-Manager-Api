@@ -147,7 +147,8 @@ class TestAuths(TestBase):
 
         response = self.client.get(
         '/api/v2/users',
-        headers=dict(Authorization="Bearer " + self.owner_token))
+        headers=dict(Authorization="Bearer " + self.owner_token)
+        )
         self.assertEqual(response.status_code, 200)
 
 
