@@ -79,7 +79,7 @@ class ProductsApi(Resource):
         products = product3.get_products()
         if not products:
             return make_response(jsonify({"message":"no product available in the system"}),200)
-        response = make_response(jsonify({products}),200)
+        response = make_response(jsonify({"This are the available products":products}),200)
         return response
 
 class SingleProductApi(Resource):
@@ -90,11 +90,11 @@ class SingleProductApi(Resource):
         This method gets data of a single product.
         returns: details of a single product.
         """
-        product2 = Products(product_id)
-        if not product2.get_product_by_id():
+        product2 = Products()
+        if not product2.get_product_by_id(product_id):
             return make_response(jsonify({"message":"product not available"}))
 
-        response = make_response(jsonify(product2.get_product_by_id()),200)
+        response = make_response(jsonify(product2.get_product_by_id(product_id)),200)
         return response
 
     @jwt_required
@@ -103,7 +103,7 @@ class SingleProductApi(Resource):
             claims = get_jwt_claims()
             if claims['role'] != "admin":
                 return make_response(jsonify({'message':'You are not allowed to perform this action, contact the system admin!'}),401)
-            response = make_response(jsonify(product3.delete_product()),200)
+            response = make_response(jsonify(product3.delete_product(product_id)),200)
 
             return response
 
@@ -125,7 +125,7 @@ class SingleProductApi(Resource):
         product4 = Products(product_id,description,category,price,stock,minStock)
 
 
-        product  = product4.get_product_by_id()
+        product  = product4.get_product_by_id(product_id)
         if not product:
             return make_response(jsonify({"message":"This product is not in the system"}),200)
         if not category:
@@ -139,6 +139,6 @@ class SingleProductApi(Resource):
         if not minStock:
             minStock=product["minStock"]
 
-        response = make_response(jsonify(product4.update_product()),200)
+        response = make_response(jsonify(product4.update_product(product_id)),200)
 
         return response

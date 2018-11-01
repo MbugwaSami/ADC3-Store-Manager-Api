@@ -13,8 +13,7 @@ class Products():
     This class has methods for manipulation of products data.
     """
 
-    def __init__(self,product_id = None, product_name = None ,description = None ,category = None ,price = None ,stock = None ,minStock = None):
-        self.product_id = product_id
+    def __init__(self,product_name = None ,description = None ,category = None ,price = None ,stock = None ,minStock = None):
         self.product_name = product_name
         self.description = description
         self.category = category
@@ -39,7 +38,7 @@ class Products():
         returns: product added message.
         raises:product existing message.
         """
-
+        print(self.product_name)
         try:
             self.cur.execute("INSERT INTO products(product_name,description,category,price,stock,min_stock)"+
             "VALUES(%s,%s,%s,%s,%s,%s)", (self.product_name,self.description,self.category,self.price,self.stock,self.minStock,))
@@ -61,13 +60,13 @@ class Products():
             self.cur.close
             self.conn.close
 
-    def get_product_by_id(self):
+    def get_product_by_id(self,product_id):
         """This method check wheather a product is in the system.
            :param:product_id.
         """
-        print(self.product_id)
+
         try:
-            self.cur.execute("SELECT * FROM products WHERE product_id = %s",(self.product_id,))
+            self.cur.execute("SELECT * FROM products WHERE product_id = %s",(product_id,))
             return self.cur.fetchone()
         except Exception as e:
             self.cur.close
@@ -87,27 +86,28 @@ class Products():
             self.conn.close
 
 
-    def delete_product(self):
+    def delete_product(self,product_id):
         """This method deletes a products from the database.
            :return:delete message:
         """
-        if not self.get_product_by_id():
+        if not self.get_product_by_id(product_id):
             return dict(message = "This product is not in the system")
         try:
-            self.cur.execute("DELETE FROM products WHERE product_id = %s", (self.product_id,))
+            self.cur.execute("DELETE FROM products WHERE product_id = %s", (product_id,))
             self.conn.commit()
             return dict(message = "one product deleted")
         except Exception as e:
             self.cur.close
             self.conn.close
 
-    def update_product(self):
+    def update_product(self,product_id):
 
-        query = """UPDATE products set description = %s, category = %s, price = %s, stock = %s"+
-        "min_stock = %s WHERE product_id = %s  """
+        # query = """UPDATE products set description = %s, category = %s, price = %s, stock = %s"+
+        # "min_stock = %s WHERE product_id = %s  """
 
         try:
-            self.cur.execute(query, (self.description, self.category, self.price, self.stock, self.minStock,self.product_id,))
+            self.cur.execute("UPDATE products set description = %s , category = %s,price = %s"+
+            "where product_id = %s", (self.description,self.category,self.price,product_id,))
             self.conn.commit()
             return dict(message = "Updated succesfuly")
         except Exception as e:
