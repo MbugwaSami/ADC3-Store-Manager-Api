@@ -25,7 +25,7 @@ def create_app(config_name):
     @jwt.user_claims_loader
     def add_claims_to_access_token(logged_user):
         '''This methods adds claims from logged_user'''
-        return {'role': logged_user['role']}
+        return {'role': logged_user['role'],'user':logged_user['user_id']}
 
 
 

@@ -1,5 +1,3 @@
-from .base_model import Models
-
 from psycopg2.extras import RealDictCursor
 import psycopg2
 import os
@@ -38,7 +36,7 @@ class Products():
         returns: product added message.
         raises:product existing message.
         """
-        print(self.product_name)
+
         try:
             self.cur.execute("INSERT INTO products(product_name,description,category,price,stock,min_stock)"+
             "VALUES(%s,%s,%s,%s,%s,%s)", (self.product_name,self.description,self.category,self.price,self.stock,self.minStock,))
