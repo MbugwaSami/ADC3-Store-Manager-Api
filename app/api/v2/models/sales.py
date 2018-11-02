@@ -10,7 +10,7 @@ class Sales():
     """
     This class has methods for manipulation of products data.
     """
-    def __init__(self,buyer_cart):
+    def __init__(self,buyer_cart = None):
         self.buyer_cart = buyer_cart
         self.conn = psycopg2.connect(app_config[enviroment].connectionVariables)
         self.cur = self.conn.cursor(cursor_factory=RealDictCursor)
@@ -37,3 +37,23 @@ class Sales():
         except Exception as e:
             self.cur.close()
             self.conn.close()
+
+    def get_all_sales(self):
+          try:
+              self.cur.execute("SELECT * FROM  sales")
+              sales = self.cur.fetchall()
+              return sales
+          except Exception as e:
+              self.cur.close()
+              self.conn.close()
+
+    def get_sales_by_user(self,user_id):
+            self.cur.execute("SELECT * FROM sales WHERE user_id = %s",(user_id,))
+            return self.cur.fetchall()
+
+
+
+    def get_sales_by_id(self,sale_id):
+              self.cur.execute("SELECT * FROM  sales WHERE user_id = %s",(user_id,))
+              sales = self.cur.fetchall()
+              return sales

@@ -21,10 +21,19 @@ class SalesApi(Resource):
 
 
 
-
+        if len(buyer_cart) == 0:
+            return make_response(jsonify({"message":"please add an item to cart"}))
         sale = Sales(buyer_cart)
         sale.add_sale()
+        return make_response(jsonify({"message":"your sale was succesfuly"}))
 
+    @jwt_required
+    def get(self):
+        sale = Sales()
+        sales = sale.get_all_sales()
+        if not sales:
+            return make_response(jsonify({"message":"No sales are available"}))
+        return make_response(jsonify(sales))
 
 
 
@@ -64,3 +73,16 @@ class SingleSalesApi(Resource):
         current_product['user_id'] = claims['user']
         buyer_cart.append(current_product)
         return make_response(jsonify({ "Buyers Cart":buyer_cart}))
+
+class SalesApiUser(Resource):
+    """This class has the post method to the sales database."""
+
+
+    @jwt_required
+    def get(self,user_id):
+        user_id =str(user_id)
+        sale = Sales()
+        sales = sale.get_sales_by_user(user_id)
+        if not sales:
+            return make_response(jsonify({"message":"No sales are available"}))
+        return make_response(jsonify(sales))
