@@ -50,32 +50,32 @@ class TestProducts(TestBase):
 
         self.assertEqual(response.status_code,200)
 
-        # # test add item in sytem
-        #
-        # response = self.client.get(
-        # '/api/v2/sales/add/r45',
-        # content_type = 'application/json'
-        # )
-        # response_data = json.loads(response.data)
-        # self.assertEqual(response_data['message'],"The following product has reached the mimimum stock, please contact the admin for sales below minimum stock")
-        # self.assertEqual(response.status_code,200)
-        #
-        # # test sale item at zero stock
-        #
-        # response = self.client.get(
-        # '/api/v2/sales/add/r',
-        # content_type = 'application/json'
-        # )
-        # response_data = json.loads(response.data)
-        # self.assertEqual(response_data['message'],"This product is out of stock")
-        # self.assertEqual(response.status_code,200)
-        #
-        # # test sale item at lower limit
-        #
-        # response = self.client.get(
-        # '/api/v2/sales/add/r1',
-        # content_type = 'application/json'
-        # )
-        # response_data = json.loads(response.data)
-        # self.assertEqual(response_data['message'],"Item added to cart")
-        # self.assertEqual(response.status_code,200)
+        # test add item in sytem
+
+        response = self.client.get(
+        '/api/v2/sales/add/r45',
+        content_type = 'application/json'
+        )
+        response_data = json.loads(response.data)
+        self.assertEqual(response_data['message'],"The following product has reached the mimimum stock, please contact the admin for sales below minimum stock")
+        self.assertEqual(response.status_code,200)
+
+        # test sale item at zero stock
+
+        response = self.client.get(
+        '/api/v2/sales/add/r',
+        content_type = 'application/json'
+        )
+        response_data = json.loads(response.data)
+        self.assertEqual(response_data['message'],"This product is out of stock")
+        self.assertEqual(response.status_code,200)
+
+        # test sale item at lower limit
+
+        response = self.client.get(
+        '/api/v2/sales/add/r1',
+        content_type = 'application/json'
+        )
+        response_data = json.loads(response.data)
+        self.assertEqual(response_data['message'],"Item added to cart")
+        self.assertEqual(response.status_code,200)
