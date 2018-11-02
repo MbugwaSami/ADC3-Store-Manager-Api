@@ -19,7 +19,9 @@ class SalesApi(Resource):
         returns: json response.
         """
 
-
+        claims = get_jwt_claims()
+        if claims['role'] != "attendant":
+            return make_response(jsonify({'message':'You cannot make a sale from an Admin account, Consider having an attendant account'}),401)
 
         if len(buyer_cart) == 0:
             return make_response(jsonify({"message":"please add an item to cart"}))
@@ -30,6 +32,11 @@ class SalesApi(Resource):
 
     @jwt_required
     def get(self):
+        claims = get_jwt_claims()
+        if claims['role'] != "admin":
+            return make_response(jsonify({'message':'You dont have rights to list all sales, contact the system admin'}),401)
+
+
         sale = Sales()
         sales = sale.get_all_sales()
         if not sales:
@@ -54,6 +61,10 @@ class SingleSalesApi(Resource):
         This method gets data of a single product.
         returns: details of a single product.
         """
+        claims = get_jwt_claims()
+        if claims['role'] != "attendant":
+            return make_response(jsonify({'message':'You cannot make a sale from an Admin account, Consider having an attendant account'}),401)
+
 
         product = Products()
         sale_product =product.get_product_by_id(product_id)

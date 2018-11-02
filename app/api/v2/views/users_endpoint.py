@@ -60,9 +60,14 @@ class UsersApi(Resource):
         This method gets data of all users.
         returns:Details of a users.
         """
+        claims = get_jwt_claims()
+        if claims['role'] != "admin":
+            return make_response(jsonify({'message':'You are not allowed to perform this action, contact the system admin!'}),401)
+
         user1 = Users()
         users = user1.get_all_users()
-
+        if not users:
+            return make_response(jsonify({"There are no users in the system":users}),200)
         response = make_response(jsonify({"This are users in the system":users}),200)
 
 
