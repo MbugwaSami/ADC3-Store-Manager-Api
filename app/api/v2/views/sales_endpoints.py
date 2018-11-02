@@ -92,6 +92,10 @@ class SalesApiUser(Resource):
 
     @jwt_required
     def get(self,user_id):
+        claims = get_jwt_claims()
+        if claims['user'] != user_id:
+            return make_response(jsonify({'message':'You can only view your sales'}),401)
+
         user_id =str(user_id)
         sale = Sales()
         sales = sale.get_sales_by_user(user_id)
