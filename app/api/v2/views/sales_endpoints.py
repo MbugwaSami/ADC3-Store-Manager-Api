@@ -25,6 +25,7 @@ class SalesApi(Resource):
             return make_response(jsonify({"message":"please add an item to cart"}))
         sale = Sales(buyer_cart)
         sale.add_sale()
+        buyer_cart.clear()
         return make_response(jsonify({"message":"your sale was succesfuly"}))
 
     @jwt_required
@@ -80,6 +81,19 @@ class SalesApiUser(Resource):
 
     @jwt_required
     def get(self,user_id):
+        user_id =str(user_id)
+        sale = Sales()
+        sales = sale.get_sales_by_user(user_id)
+        if not sales:
+            return make_response(jsonify({"message":"No sales are available"}))
+        return make_response(jsonify(sales))
+
+class SalesApiSale(Resource):
+    """This class has the post method to the sales database."""
+
+
+    @jwt_required
+    def get(self,sale_id):
         user_id =str(user_id)
         sale = Sales()
         sales = sale.get_sales_by_user(user_id)
