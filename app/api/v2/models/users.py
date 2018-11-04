@@ -46,7 +46,7 @@ class Users():
            :returns:user.
         """
 
-        self.cur.execute("SELECT email,names,role FROM users where email =%s",(self.email,))
+        self.cur.execute("SELECT user_id,email,names,role FROM users where email =%s",(self.email,))
         return self.cur.fetchone()
 
     def get_all_users(self):
