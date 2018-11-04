@@ -18,179 +18,212 @@ class TestBase(unittest.TestCase):
 
 
 		self.test_user = dict(
-            email = "samiNjau@gmail.com",
-            names = "Sammy Njau",
-            password = "Mwoboko10@",
-            role = "attendant",
-            )
+		email = "samiNjau@gmail.com",
+		names = "Sammy Njau",
+		password = "Mwoboko10@",
+		role = "attendant",
+		)
 
 		self.test_user1 = dict(
-            email = "mbugwa@gmail.com",
-            names = "Sammy Njau",
-            password = "Mwoboko10@",
-            role = "attendant",
-            )
+		email = "mbugwa@gmail.com",
+		names = "Sammy Njau",
+		password = "Mwoboko10@",
+		role = "attendant",
+		)
 
 
 
 		self.test_user2 = dict(
-            email = "saminjeri@gmailcom",
-            names = "Sammy Njau",
-            password = "Mwoboko10@",
-            role = "attendant",
-            )
+		email = "saminjeri@gmailcom",
+		names = "Sammy Njau",
+		password = "Mwoboko10@",
+		role = "attendant",
+		)
 
 		self.test_user3 = dict(
-            email = "saminjau12@gmail.com",
-            names = "Sammy Njau",
-            password = "111",
-            role = "attendant",
-            )
+		email = "sami.njau12@gmail.com",
+		names = "Sammy Njau",
+		password = "111",
+		role = "attendant",
+		)
 
 		self.test_user4 = dict(
-            email = "sami.mbugwa@gmail.com",
-            names = "Sammy Njau",
-            password = "Mwoboko10@",
-            role = "customer",
-            )
+		email = "sami.mbugwa@gmail.com",
+		names = "Sammy Njau",
+		password = "Mwoboko10@",
+		role = "customer",
+		)
 
 		self.test_user5 = dict(
-            email = "sami.mbugwa@gmail.com",
-            names = "",
-            password = "Mwoboko10@",
-            role = "admin",
-            )
+		email = "sami.mbugwa@gmail.com",
+		names = "",
+		password = "Mwoboko10@",
+		role = "admin",
+		)
 
 		self.test_user6 = dict(
-            email = "njau.sammy@gmail.com",
-            names = "sammy njau",
-            password = "Mwoboko10@",
-            role = "attendant",
-            )
+		email = "njau.sammy@gmail.com",
+		names = "sammy njau",
+		password = "Mwoboko10@",
+		role = "attendant",
+		)
 
 		self.test_user7 = dict(
-            email = "sammy@gmail.com",
-            names = "sammy njau",
-            password = "Mwoboko10@",
-            role = "attendant",
-            )
+		email = "sammy@gmail.com",
+		names = "sammy njau",
+		password = "Mwoboko10@",
+		role = "attendant",
+		)
 
 		self.test_login = dict(
-            email = "sammy@gmail.com",
-            password = "Mwoboko10@",
-            )
+		email = "sammy@gmail.com",
+		password = "Mwoboko10@",
+		)
 
 		self.test_login = dict(
-            email = "samiNjau@gmail.com",
-            password = "Mwoboko10@",
-            )
+		email = "samiNjau@gmail.com",
+		password = "Mwoboko10@",
+		)
 
 		self.test_login1 = dict(
-            email = "njau.sammyl.com",
-            password = "Mwobok",
-            )
+		email = "njau.sammyl.com",
+		password = "Mwobok",
+		)
 
 		self.test_login2 = dict(
-            email = "sammy@gmail.com",
-            password = "Mwoboko10@",
-            )
+		email = "sammy@gmail.com",
+		password = "Mwoboko10@",
+		)
 
 		self.owner_login = dict(
-            email = "sam@gmail.com",
-            password = "Sammy10@",
-            )
+		email = "sam@gmail.com",
+		password = "Sammy10@",
+		)
 
 
 		self.owner_login1 = dict(
-            email = "sam@gmai.com",
-            password = "Sammy10@",
-            )
+		email = "sam@gmai.com",
+		password = "Sammy10@",
+		)
 
 		self.test_sale_product =dict(
-            product_name = "khaki Trouser",
-            description = "italian export",
-			category = "clothes",
-            price = 1000,
-            stock = 10,
-            minStock = 10
-            )
+		product_name = "Jeans Trouser",
+		description = "italian export",
+		category = "clothes",
+		price = 1000,
+		stock = 100,
+		minStock = 10
+		)
 
 		self.test_product =dict(
-            product_name = "khaki Trouser",
-            description = "italian export",
-			category = "clothes",
-            price = 1000,
-            stock = 100,
-            minStock = 10
-            )
+		product_name = "khaki Trouser",
+		description = "italian export",
+		category = "clothes",
+		price = 1000,
+		stock = 100,
+		minStock = 10
+		)
 
 		self.test_product1 =dict(
-            product_name = "",
-            description = "italian export",
-		    category = "clothes",
-            price = 1000,
-            stock = 100,
-            minStock = 10
-           )
+		product_name = "",
+		description = "italian export",
+		category = "clothes",
+		price = 1000,
+		stock = 100,
+		minStock = 10
+		)
 
 		self.test_product2 =dict(
-           product_name = "khaki shirt",
-           description = "italian export",
-		   category = "clothes",
-           price = 1000,
-           stock = 100,
-           minStock = 10
-           )
+		product_name = "khaki shirt",
+		description = "italian export",
+		category = "clothes",
+		price = 1000,
+		stock = 100,
+		minStock = 10
+		)
 
 		self.test_product3 =dict(
-          product_name = "Legsin Trouser",
-          description = "italian export",
-		  category = "clothes",
-          price = "sammy",
-          stock = 100,
-          minStock = 10
-          )
+		product_name = "Legsin Trouser",
+		description = "italian export",
+		category = "clothes",
+		price = "sammy",
+		stock = 100,
+		minStock = 10
+		)
 
 		self.test_product4 =dict(
-          product_name = "legsin shirt",
-          description = "italian export",
-	   	  category = "clothes",
-          price = 1000,
-          stock = 30.5,
-          minStock = 10
-          )
+		product_name = "legsin shirt",
+		description = "italian export",
+		category = "clothes",
+		price = 1000,
+		stock = 30.5,
+		minStock = 10
+		)
 
 		self.test_product5 =dict(
-          product_name = "AirForce shoe",
-          description = "italian export",
-		  category = "shoes",
-          price = 1000,
-          stock = 100,
-          minStock = "sammmy"
-          )
+		product_name = "AirForce shoe",
+		description = "italian export",
+		category = "shoes",
+		price = 1000,
+		stock = 100,
+		minStock = "sammmy"
+		)
 		self.test_product6 =dict(
-          product_name = "Air max",
-          description = "italian export",
-		  category ="Shoes",
-          price = 1000,
-          stock = 100,
-          minStock = 10
-          )
+		product_name = "Air max",
+		description = "italian export",
+		category ="Shoes",
+		price = 1000,
+		stock = 100,
+		minStock = 10
+		)
 
 		self.test_product7 =dict(
-          product_name = "Air force",
-          description = "italian export",
-		  category ="Shoes",
-          price = 1000,
-          stock = 100,
-          minStock = 10
-          )
+		product_name = "Air force",
+		description = "italian export",
+		category ="Shoes",
+		price = 1000,
+		stock = 100,
+		minStock = 10
+		)
 
 
 		self.update_product =dict(
-          description = "france origin",
-		  category ="Shoes",
-          price = 1500,
-          stock = 80,
-          minStock = 10
-          )
+		description = "france origin",
+		category ="Shoes",
+		price = 1500,
+		stock = 80,
+		minStock = 10
+		)
+
+		response = self.client.post(
+		'/api/v2/users/login',
+		data = json.dumps(self.owner_login),
+		content_type = 'application/json'
+		)
+		self.owner_token = json.loads(response.data.decode())['token']
+
+		# create an attendant
+
+		response = self.client.post(
+		'/api/v2/users',
+		data = json.dumps(dict(
+		email = "saminjau12@gmail.com",
+		names = "Sammy Njau",
+		password = "Mfhry45978#",
+		role = "attendant",
+		)),
+		headers=dict(Authorization="Bearer " + self.owner_token),
+		content_type = 'application/json'
+		)
+
+		#login the attendant
+		response = self.client.post(
+		'/api/v2/users/login',
+		data = json.dumps(dict(
+		email = "saminjau12@gmail.com",
+		password = "Mfhry45978#",
+		)),
+		content_type = 'application/json'
+		)
+
+		self.attendant_token = json.loads(response.data.decode())['token']

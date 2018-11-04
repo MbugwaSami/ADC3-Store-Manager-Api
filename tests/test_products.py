@@ -32,6 +32,17 @@ class TestProducts(TestBase):
         self.assertEqual("khaki trouser succesfuly added",response_data["message"])
         self.assertEqual(response.status_code, 201)
 
+        #test product two has been added
+        response = self.client.post(
+        '/api/v2/products',
+        data = json.dumps(self.test_sale_product),
+        headers=dict(Authorization="Bearer " + self.owner_token),
+        content_type = 'application/json'
+        )
+
+        response_data = json.loads(response.data)
+        self.assertEqual("jeans trouser succesfuly added",response_data["message"])
+        self.assertEqual(response.status_code, 201)
 
         #test product data is not empty
         response = self.client.post(
