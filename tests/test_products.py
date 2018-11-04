@@ -13,13 +13,6 @@ class TestProducts(TestBase):
            :returns:response:
         """
 
-        response = self.client.post(
-        '/api/v2/users/login',
-        data = json.dumps(self.owner_login),
-        content_type = 'application/json'
-        )
-        self.owner_token = json.loads(response.data.decode())['token']
-
         #test product has been added
         response = self.client.post(
         '/api/v2/products',
@@ -31,6 +24,17 @@ class TestProducts(TestBase):
         response_data = json.loads(response.data)
         self.assertEqual("khaki trouser succesfuly added",response_data["message"])
         self.assertEqual(response.status_code, 201)
+
+        response = self.client.post(
+        '/api/v2/products',
+        data = json.dumps(self.test_product),
+        headers=dict(Authorization="Bearer " + self.owner_token),
+        content_type = 'application/json'
+        )
+        response_data = json.loads(response.data)
+        self.assertEqual("This product is alrleady in the system",response_data["message"])
+        self.assertEqual(response.status_code, 200)
+
 
         #test product two has been added
         response = self.client.post(
@@ -45,6 +49,13 @@ class TestProducts(TestBase):
         self.assertEqual(response.status_code, 201)
 
         #test product data is not empty
+    def test_product_data_not_empty(self):
+
+        """This method tests wheather a product data is empty.
+           :param1:client.
+           :products data
+           :returns:response:
+        """
         response = self.client.post(
         '/api/v2/products',
         data = json.dumps({}),
@@ -57,6 +68,13 @@ class TestProducts(TestBase):
         self.assertEqual(response.status_code, 200)
 
         #test non empty data fields
+    def test_some_fields_not_empty(self):
+
+        """This method tests wheather some product fields are empty.
+           :param1:client.
+           :products data
+           :returns:response:
+        """
         response = self.client.post(
         '/api/v2/products',
         data = json.dumps(self.test_product1),
@@ -68,19 +86,17 @@ class TestProducts(TestBase):
         self.assertEqual("Some required data fields are empty! only description and category can be empty",response_data["message"])
         self.assertEqual(response.status_code, 200)
 
-        # test a product name is unique
-        response = self.client.post(
-        '/api/v2/products',
-        data = json.dumps(self.test_product),
-        headers=dict(Authorization="Bearer " + self.owner_token),
-        content_type = 'application/json'
-        )
-        response_data = json.loads(response.data)
-        self.assertEqual("This product is alrleady in the system",response_data["message"])
-        self.assertEqual(response.status_code, 200)
+
 
 
         # test product price is a number
+    def test_price_is_a_number(self):
+
+        """This method tests wheather product price is number.
+           :param1:client.
+           :products data
+           :returns:response:
+        """
         response = self.client.post(
         '/api/v2/products',
         data = json.dumps(self.test_product3),
@@ -93,6 +109,13 @@ class TestProducts(TestBase):
         self.assertEqual(response.status_code, 200)
 
         # test product stock is an integer
+    def test_stock_is_an_integer(self):
+
+        """This method tests wheather stock is an integer.
+           :param1:client.
+           :products data
+           :returns:response:
+        """
         response = self.client.post(
         '/api/v2/products',
         data = json.dumps(self.test_product4),
@@ -105,6 +128,13 @@ class TestProducts(TestBase):
         self.assertEqual(response.status_code, 200)
 
         # test product mimimum stock is an integer
+    def test_minStock_is_an_integer(self):
+
+        """This method tests wheather a product price is an integer.
+           :param1:client.
+           :products data
+           :returns:response:
+        """
         response = self.client.post(
         '/api/v2/products',
         data = json.dumps(self.test_product5),
@@ -117,21 +147,29 @@ class TestProducts(TestBase):
         self.assertEqual(response.status_code, 200)
 
 
+    # get a single product by product code
+    def test_get_one_product(self):
 
-    def test_get_product(self):
-
-        """This method tests wheather all products are  retrieved.
+        """This method tests wheather a single retrieved.
            :param1:client.
            :products data
            :returns:response:
         """
-        response = self.client.post(
-        '/api/v2/users/login',
-        data = json.dumps(self.owner_login),
-        content_type = 'application/json'
-        )
-        self.owner_token = json.loads(response.data.decode())['token']
-        #get all products
+        response = self.client.get(
+        '/api/v2/products/2',
+        headers=dict(Authorization="Bearer " + self.owner_token))
+        self.assertEqual(response.status_code, 200)
+
+
+    #get all products
+    def test_get_all_product(self):
+
+        """This method tests wheather all products are retrived.
+           :param1:client.
+           :products data
+           :returns:response:
+        """
+        # test admin can get all productds
         response = self.client.post(
         '/api/v2/products',
         data = json.dumps(self.test_product6),
@@ -149,12 +187,20 @@ class TestProducts(TestBase):
         response_data = json.loads(response.data)
         self.assertEqual(response.status_code, 200)
 
+        # test attendant can get all products
+    def test_attendant_get_all_product(self):
 
-        # get a single product by product code
+        """This method tests wheather an attendant can retrive a product.
+           :param1:client.
+           :products data
+           :returns:response:
+        """
         response = self.client.get(
-        '/api/v2/products/2',
-        headers=dict(Authorization="Bearer " + self.owner_token))
+        '/api/v2/products',
+        headers=dict(Authorization="Bearer " + self.attendant_token),)
+        response_data = json.loads(response.data)
         self.assertEqual(response.status_code, 200)
+
 
     def test_modify_product(self):
         """This method tests the method for updating product details
@@ -162,12 +208,6 @@ class TestProducts(TestBase):
            :products data
            :returns:response:
         """
-        response = self.client.post(
-        '/api/v2/users/login',
-        data = json.dumps(self.owner_login),
-        content_type = 'application/json'
-        )
-        self.owner_token = json.loads(response.data.decode())['token']
         # check if updated item exists
         response = self.client.put(
         '/api/v2/products/8888',
@@ -195,13 +235,6 @@ class TestProducts(TestBase):
            :returns:response:
         """
 
-        response = self.client.post(
-        '/api/v2/users/login',
-        data = json.dumps(self.owner_login),
-        content_type = 'application/json'
-        )
-        self.owner_token = json.loads(response.data.decode())['token']
-
         response = self.client.delete(
         '/api/v2/products/1',
         headers=dict(Authorization="Bearer " + self.owner_token)
@@ -215,42 +248,12 @@ class TestProducts(TestBase):
         response_data = json.loads(response.data)
         self.assertEqual("product not available",response_data["message"])
 
-    def test_unauthorized_actions(self):
-        """This method checks wheather a user can perform unauthorized actions.
+    def test_attendant_cannot_add_a_product(self):
+        """This method checks wheather an attendant cannot add a product.
            :test delete_product
            :test create products
            :test modify product
         """
-
-        response = self.client.post(
-        '/api/v2/users/login',
-        data = json.dumps(self.owner_login),
-        content_type = 'application/json'
-        )
-        self.owner_token = json.loads(response.data.decode())['token']
-        # create attendant account
-        response = self.client.post(
-        '/api/v2/users',
-        data = json.dumps(self.test_user7),
-        headers=dict(Authorization="Bearer " + self.owner_token),
-        content_type = 'application/json'
-        )
-
-        response_data = json.loads(response.data)
-        self.assertEqual(response_data["message"],"User account succesfuly created")
-        self.assertEqual(response.status_code, 201)
-
-        # login a normal user
-        response = self.client.post(
-        '/api/v2/users/login',
-        data = json.dumps(self.test_login2),
-        content_type = 'application/json'
-        )
-
-        response_data = json.loads(response.data)
-        self.attendant_token = json.loads(response.data.decode())['token']
-        self.assertEqual(response_data["message"],"wellcome SAMMY NJAU, you are loged in as attendant")
-        self.assertEqual(response.status_code, 201)
 
         response = self.client.post(
         '/api/v2/products',
@@ -263,6 +266,13 @@ class TestProducts(TestBase):
         self.assertEqual(response_data["message"],"You are not allowed to perform this action, contact the system admin!")
         self.assertEqual(response.status_code, 401)
 
+    def test_attendant_cannot_delete_a_product(self):
+
+        """This method tests wheather an attendant cannot delete a productt.
+           :param1:client.
+           :products data
+           :returns:response:
+        """
         response = self.client.delete(
         '/api/v2/products/2',
         data = json.dumps(self.update_product),
@@ -273,12 +283,19 @@ class TestProducts(TestBase):
         self.assertEqual(response_data["message"],"You are not allowed to perform this action, contact the system admin!")
         self.assertEqual(response.status_code, 401)
 
+    def test_attendant_cannot_update_a_product(self):
 
+        """This method tests wheather an attendant cannot update a product.
+           :param1:client.
+           :products data
+           :returns:response:
+        """
         response = self.client.put(
         '/api/v2/products/2',
         data = json.dumps(self.test_product),
         headers=dict(Authorization="Bearer " + self.attendant_token),
         content_type = 'application/json'
         )
+        response_data = json.loads(response.data)
         self.assertEqual(response_data["message"],"You are not allowed to perform this action, contact the system admin!")
         self.assertEqual(response.status_code, 401)
