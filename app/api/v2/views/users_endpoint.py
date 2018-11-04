@@ -67,8 +67,8 @@ class UsersApi(Resource):
         user1 = Users()
         users = user1.get_all_users()
         if not users:
-            return make_response(jsonify({"There are no users in the system":users}),200)
-        response = make_response(jsonify({"This are users in the system":users}),200)
+            return make_response(jsonify({"message":"There are no users in the system"}),200)
+        response = make_response(jsonify({"message":"This are users in the system","users":users}),200)
 
 
         return response
