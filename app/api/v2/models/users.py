@@ -67,7 +67,6 @@ class Users():
         except Exception as a:
             print(a)
         result=self.cur.fetchone()
-        print(result)
         if result:
             try:
                 valid_login = check_password_hash(result["password"], self.password)
