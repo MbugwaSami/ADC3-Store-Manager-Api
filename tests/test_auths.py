@@ -213,6 +213,46 @@ class TestAuths(TestBase):
         self.assertEqual(response_data["message"],"wrong email or password")
         self.assertEqual(response.status_code, 401)
 
+    def test_logout(self):
+
+        response = self.client.post(
+        '/api/v2/users',
+        data = json.dumps(self.test_user7),
+        headers=dict(Authorization="Bearer " + self.owner_token),
+        content_type = 'application/json'
+        )
+
+        response_data = json.loads(response.data)
+        self.assertEqual(response_data["message"],"User account succesfuly created")
+        self.assertEqual(response.status_code, 201)
+
+        response = self.client.post(
+        '/api/v2/users/login',
+        data = json.dumps(dict(
+        email = "sammy@gmail.com",
+        password = "Mwoboko10@"
+        )),
+        content_type = 'application/json'
+        )
+
+        response_data = json.loads(response.data)
+        attendant_token = json.loads(response.data.decode())['token']
+        self.assertEqual(response_data["message"],"wellcome SAMMY NJAU, you are loged in as attendant")
+        self.assertEqual(response.status_code, 201)
+
+        attendant_token = json.loads(response.data.decode())['token']
+
+        response = self.client.post(
+        '/api/v2/users/logout',
+        headers=dict(Authorization="Bearer " + attendant_token),
+        content_type = 'application/json'
+        )
+
+        response_data = json.loads(response.data)
+
+        self.assertEqual(response_data["message"],"You have been logged out")
+        self.assertEqual(response.status_code, 201)
+
 
         # test create user by attendant
     def test_atendant_create_account(self):

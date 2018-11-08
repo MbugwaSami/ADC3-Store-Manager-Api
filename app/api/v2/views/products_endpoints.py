@@ -1,3 +1,4 @@
+
 from flask import Flask, jsonify, request, make_response
 from flask_restful import Resource
 from flask_jwt_extended import (
@@ -116,6 +117,9 @@ class SingleProductApi(Resource):
             return make_response(jsonify({'message':'You are not allowed to perform this action, contact the system admin!'}),401)
 
         data=request.get_json()
+
+        if not data:
+            return make_response(jsonify({"message":"Please input data to update"}),200)
 
         description = data.get('description')
         category = data.get('category')

@@ -178,12 +178,11 @@ class TestBase(unittest.TestCase):
 		)
 
 		self.test_product7 =dict(
-		product_name = "Air force",
 		description = "italian export",
-		category ="Shoes",
+		category ="clothes",
 		price = 1000,
 		stock = 100,
-		minStock = 10
+		minStock = 100
 		)
 
 
