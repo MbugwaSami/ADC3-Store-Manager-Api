@@ -65,7 +65,8 @@ class Users():
         try:
             self.cur.execute("SELECT  password FROM users WHERE email = %s ",(self.email,))
         except Exception as a:
-            print(a)
+            self.cur.close()
+            self.conn.close()
         result=self.cur.fetchone()
         if result:
             try:
@@ -106,3 +107,21 @@ class Users():
         if re.match(r'^[_a-z0-9-]+(\.[_a-z0-9-]+)*@[a-z0-9-]+(\.[a-z0-9-]+)*(\.[a-z]{2,4})$', self.email,re.IGNORECASE):
             return True
         return False
+
+    def blacklist_token(self,json_token):
+
+        try:
+            self.cur.execute("INSERT INTO blacklist(json_token) VALUES(%s)",(json_token,))
+            self.conn.commit()
+
+        except Exception as e:
+            self.cur.close()
+            self.conn.close()
+
+    def check_blacklist(self,json_token):
+
+        try:
+            self.cur.execute("SELECT * FROM blacklist WHERE json_token = %s",(json_token,))
+            return self.cur.fetchone()
+        except Exception as e:
+            raise

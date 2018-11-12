@@ -28,32 +28,38 @@ class DbBase(object):
 		cur=conn.cursor()
 
 		query1 = """CREATE TABLE if not EXISTS users(
-            user_id Serial  PRIMARY KEY NOT NULL,
-            names varchar(40) NOT NULL,
-            email varchar(100)  NOT NULL,
-            password varchar(500) NOT NULL,
-            role varchar(15) NOT NULL)
-        """
+		user_id Serial  PRIMARY KEY NOT NULL,
+		names varchar(40) NOT NULL,
+		email varchar(100)  NOT NULL,
+		password varchar(500) NOT NULL,
+		role varchar(15) NOT NULL)
+		"""
 
 		query2 = """CREATE TABLE if not EXISTS products(
-            product_id serial  NOT NULL,
-            product_name varchar(200)  NOT NULL,
-            description varchar(200),
-			category varchar(20),
-            price integer NOT NULL,
-            min_stock integer NOT NULL,
-            stock integer NOT NULL)
-        """
+		product_id serial  NOT NULL,
+		product_name varchar(200)  NOT NULL,
+		description varchar(200),
+		category varchar(20),
+		price integer NOT NULL,
+		min_stock integer NOT NULL,
+		stock integer NOT NULL)
+		"""
 
 
 		query3 = """CREATE TABLE if not EXISTS sales(
-            product_name varchar(200) NOT NULL,
-			quantity INTEGER NOT NULL,
-			subtotal INTEGER NOT NULL,
-			user_id varchar(20) NOT NULL)
+		product_name varchar(200) NOT NULL,
+		quantity INTEGER NOT NULL,
+		subtotal INTEGER NOT NULL,
+		user_id varchar(20) NOT NULL)
 		"""
 
-		queries=[query1,query2,query3]
+		query4 = """CREATE TABLE if not EXISTS blacklist(
+		token_id serial NOT NULL,
+		json_token varchar(700) NOT NULL
+		)
+		"""
+
+		queries=[query1, query2,  query3, query4]
 
 		for query in queries:
 

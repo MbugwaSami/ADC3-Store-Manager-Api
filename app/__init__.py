@@ -5,6 +5,7 @@ from flask_jwt_extended import JWTManager
 
 from instance.config import app_config
 from connection import DbBase
+from .api.v2.models.users import Users
 
 
 my_db = DbBase()
@@ -13,6 +14,8 @@ def create_app(config_name):
 
     app.config.from_object(app_config[config_name])
     app.config['JWT_SECRET_KEY'] = 'mysecretkey code'
+    app.config['JWT_BLACKLIST_ENABLED'] = True
+    app.config['JWT_BLACKLIST_TOKEN_CHECKS'] = ['access']
     jwt = JWTManager(app)
 
 
@@ -26,6 +29,14 @@ def create_app(config_name):
     def add_claims_to_access_token(logged_user):
         '''This methods adds claims from logged_user'''
         return {'role': logged_user['role'],'user':logged_user['user_id']}
+
+    @jwt.token_in_blacklist_loader
+    def check_blacklist(decrypted_token):
+        '''check if token is in black list'''
+        json_token = decrypted_token['jti']
+        revoked_tokens = Users()
+        return revoked_tokens.check_blacklist(json_token)
+
 
 
 

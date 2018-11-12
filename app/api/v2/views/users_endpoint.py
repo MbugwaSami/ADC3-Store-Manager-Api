@@ -4,7 +4,7 @@ from flask_restful import Resource
 from app import create_app
 from datetime import datetime as dt
 from flask_jwt_extended import (
-    JWTManager, jwt_required, create_access_token, get_jwt_claims)
+    JWTManager, jwt_required, create_access_token, get_jwt_claims, get_raw_jwt)
 from ..models.users import Users
 
 
@@ -95,4 +95,15 @@ class SingleUserApi(Resource):
         role = logged_user["role"]
         access_token = create_access_token(identity = logged_user)
         response = make_response(jsonify(dict(token = access_token, message = "wellcome "+names +", "+"you are loged in as "+role)),201)
+        return response
+
+class SingleUserApi1(Resource):
+    
+    @jwt_required
+    def post(self):
+        """This method posts a token to a blacklist table during logout"""
+        user3 = Users()
+        json_token = get_raw_jwt()['jti']
+        user3.blacklist_token(json_token)
+        response = make_response(jsonify({"message":"You have been logged out"}),201)
         return response

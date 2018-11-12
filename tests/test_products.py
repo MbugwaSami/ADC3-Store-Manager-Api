@@ -222,7 +222,7 @@ class TestProducts(TestBase):
 
         response = self.client.put(
         '/api/v2/products/2',
-        data = json.dumps(self.test_product),
+        data = json.dumps(self.test_product7),
         headers=dict(Authorization="Bearer " + self.owner_token),
         content_type = 'application/json'
         )
