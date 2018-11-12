@@ -54,18 +54,13 @@ class ProductsApi(Resource):
             return make_response(jsonify({"message":"Product price can only be a number"}),200)
 
 
-        if type((stock)) is not int:
-
-            return make_response(jsonify({'message':'Stock can only be an integer'}),200)
-
-        if type((minStock)) is not int:
-
-            return make_response(jsonify({'message':'Minimum Stock can only be an integer'}),200)
-
+        try:
+            stock = int(stock)
+            minStock = int(minStock)
+        except Exception as e:
+            return make_response(jsonify({'message':'Stock and minimum stock can only be an integer'}),200)
 
         response = make_response(jsonify(product1.add_product()),201)
-
-
         return response
 
     @jwt_required
@@ -80,7 +75,7 @@ class ProductsApi(Resource):
         products = product3.get_products()
         if not products:
             return make_response(jsonify({"message":"no product available in the system"}),200)
-        response = make_response(jsonify(products),200)
+        response = make_response(jsonify("products"products),200)
         return response
 
 class SingleProductApi(Resource):
