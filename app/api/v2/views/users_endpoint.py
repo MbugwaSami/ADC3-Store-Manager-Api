@@ -94,11 +94,18 @@ class SingleUserApi(Resource):
         names = logged_user["names"]
         role = logged_user["role"]
         access_token = create_access_token(identity = logged_user)
-        response = make_response(jsonify(dict(token = access_token, message = "wellcome "+names +", "+"you are loged in as "+role)),201)
+        response = make_response(jsonify(dict(
+        token = access_token,
+        names = logged_user["names"],
+        role = logged_user["role"],
+        message = "wellcome "+names +", "+"you are loged in as "+role)),201)
         return response
 
-class SingleUserApi1(Resource):
     
+
+
+class SingleUserApi1(Resource):
+
     @jwt_required
     def post(self):
         """This method posts a token to a blacklist table during logout"""
