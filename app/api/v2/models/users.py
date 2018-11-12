@@ -54,7 +54,7 @@ class Users():
         This method gets all details users
         returns:all_users
         """
-        self.cur.execute("SELECT email,names,role FROM users")
+        self.cur.execute("SELECT user_id, email,names,role FROM users")
         return self.cur.fetchall()
 
     def verify_user(self):
