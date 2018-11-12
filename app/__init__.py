@@ -2,6 +2,7 @@ from flask import Flask,Blueprint
 from flask_restful import Api
 from functools import wraps
 from flask_jwt_extended import JWTManager
+from flask_cors import CORS
 
 from instance.config import app_config
 from connection import DbBase
@@ -11,6 +12,7 @@ from .api.v2.models.users import Users
 my_db = DbBase()
 def create_app(config_name):
     app = Flask(__name__)
+    CORS(app)
 
     app.config.from_object(app_config[config_name])
     app.config['JWT_SECRET_KEY'] = 'mysecretkey code'
