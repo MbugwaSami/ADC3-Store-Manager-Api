@@ -50,7 +50,7 @@ class DbBase(object):
 		product_name varchar(200) NOT NULL,
 		quantity INTEGER NOT NULL,
 		subtotal INTEGER NOT NULL,
-		sale_id varchar(20) NOT NULL)
+		sale_id INTEGER NOT NULL)
 		"""
 
 
