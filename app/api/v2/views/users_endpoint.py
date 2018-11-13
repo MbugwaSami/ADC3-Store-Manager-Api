@@ -101,7 +101,7 @@ class SingleUserApi(Resource):
         message = "wellcome "+names +", "+"you are loged in as "+role)),201)
         return response
 
-    
+
 
 
 class SingleUserApi1(Resource):

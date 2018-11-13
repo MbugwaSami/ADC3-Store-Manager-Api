@@ -77,6 +77,7 @@ class SingleSalesApi(Resource):
             return make_response(jsonify({"message": "This product is out of stock"}))
 
         claims = get_jwt_claims()
+        current_product.clear()
         current_product['product_name'] =sale_product['product_name']
         current_product['product_id'] =sale_product['product_id']
         current_product['price'] = sale_product['price']
@@ -84,7 +85,7 @@ class SingleSalesApi(Resource):
         current_product['subtotal'] = current_product['price']*quantity
         current_product['user_id'] = claims['user']
         buyer_cart.append(current_product)
-        return make_response(jsonify({ "Buyers Cart":buyer_cart,"message":"This are the items on your Cart"}))
+        return make_response(jsonify({ "buyers_cart":buyer_cart,"message":"This are the items on your Cart"}))
 
 class SalesApiUser(Resource):
     """This class has the post method to the sales database."""

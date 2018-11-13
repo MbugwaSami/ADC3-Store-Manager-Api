@@ -86,11 +86,15 @@ class SingleProductApi(Resource):
         This method gets data of a single product.
         returns: details of a single product.
         """
+        try:
+            product_id = int(product_id)
+        except Exception as e:
+            return make_response(jsonify({"message":"product not available"}))
         product2 = Products()
         if not product2.get_product_by_id(product_id):
             return make_response(jsonify({"message":"product not available"}))
 
-        response = make_response(jsonify(product2.get_product_by_id(product_id)),200)
+        response = make_response(jsonify({"message":"product found","product":product2.get_product_by_id(product_id)}),200)
         return response
 
     @jwt_required
