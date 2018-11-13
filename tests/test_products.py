@@ -22,7 +22,7 @@ class TestProducts(TestBase):
         )
 
         response_data = json.loads(response.data)
-        self.assertEqual("khaki trouser succesfuly added",response_data["message"])
+        self.assertEqual("product succesfuly added",response_data["message"])
         self.assertEqual(response.status_code, 201)
 
         response = self.client.post(
@@ -45,7 +45,7 @@ class TestProducts(TestBase):
         )
 
         response_data = json.loads(response.data)
-        self.assertEqual("jeans trouser succesfuly added",response_data["message"])
+        self.assertEqual("product succesfuly added",response_data["message"])
         self.assertEqual(response.status_code, 201)
 
         #test product data is not empty
@@ -124,7 +124,7 @@ class TestProducts(TestBase):
         )
 
         response_data = json.loads(response.data)
-        self.assertEqual("Stock can only be an integer",response_data["message"])
+        self.assertEqual("Stock and minimum stock can only be an integer",response_data["message"])
         self.assertEqual(response.status_code, 200)
 
         # test product mimimum stock is an integer
@@ -143,7 +143,7 @@ class TestProducts(TestBase):
         )
 
         response_data = json.loads(response.data)
-        self.assertEqual("Minimum Stock can only be an integer",response_data["message"])
+        self.assertEqual("Stock and minimum stock can only be an integer",response_data["message"])
         self.assertEqual(response.status_code, 200)
 
 
@@ -178,7 +178,7 @@ class TestProducts(TestBase):
         )
 
         response_data = json.loads(response.data)
-        self.assertEqual("air max succesfuly added",response_data["message"])
+        self.assertEqual("product succesfuly added",response_data["message"])
         self.assertEqual(response.status_code, 201)
 
         response = self.client.get(

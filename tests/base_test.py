@@ -156,7 +156,7 @@ class TestBase(unittest.TestCase):
 		description = "italian export",
 		category = "clothes",
 		price = 1000,
-		stock = 30.5,
+		stock = "uuu",
 		minStock = 10
 		)
 

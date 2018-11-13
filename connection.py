@@ -50,16 +50,26 @@ class DbBase(object):
 		product_name varchar(200) NOT NULL,
 		quantity INTEGER NOT NULL,
 		subtotal INTEGER NOT NULL,
+		sale_id varchar(20) NOT NULL)
+		"""
+
+
+		query4 = """CREATE TABLE if not EXISTS transactions(
+		sale_id serial NOT NULL,
+		total INTEGER NOT NULL,
+		product_count integer NOT NULL,
 		user_id varchar(20) NOT NULL)
 		"""
 
-		query4 = """CREATE TABLE if not EXISTS blacklist(
+
+
+		query5 = """CREATE TABLE if not EXISTS blacklist(
 		token_id serial NOT NULL,
 		json_token varchar(700) NOT NULL
 		)
 		"""
 
-		queries=[query1, query2,  query3, query4]
+		queries=[query1, query2,  query3, query4, query5]
 
 		for query in queries:
 

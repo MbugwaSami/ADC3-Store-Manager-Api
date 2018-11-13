@@ -8,7 +8,7 @@ from ..models.products import Products
 
 
 buyer_cart = []
-
+totals = []
 
 class SalesApi(Resource):
     """This class has the post method to the sales database."""
@@ -25,7 +25,7 @@ class SalesApi(Resource):
 
         if len(buyer_cart) == 0:
             return make_response(jsonify({"message":"please add an item to cart"}))
-        sale = Sales(buyer_cart)
+        sale = Sales(buyer_cart,totals)
         sale.add_sale()
         buyer_cart.clear()
         return make_response(jsonify({"message":"your sale was succesful"}))
@@ -82,14 +82,20 @@ class SingleSalesApi(Resource):
         "product_id":  sale_product['product_id'],
         "price": sale_product['price'],
         "quantity": quantity,
-        "subtotal": sale_product['price']*quantity,
-        "user_id": claims['user']
+        "subtotal": sale_product['price']*quantity
         }
         buyer_cart.append(current_product)
         total = 0
+        product_count= 0
         for item in buyer_cart:
             total = total + item['subtotal']
-        return make_response(jsonify({ "buyers_cart":buyer_cart,"message":"This are the items on your Cart", "total":total}))
+            product_count = product_count + item['quantity']
+        totals.clear()
+        totals.append(total)
+        totals.append(product_count)
+        totals.append(claims['user'])
+        print(totals)
+        return make_response(jsonify({ "buyers_cart":buyer_cart,"message":"This are the items on your Cart", "total":total, "product_count":product_count}))
 
 class SalesApiUser(Resource):
     """This class has the post method to the sales database."""
