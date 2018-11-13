@@ -8,7 +8,7 @@ from ..models.products import Products
 
 
 buyer_cart = []
-current_product = {}
+
 
 class SalesApi(Resource):
     """This class has the post method to the sales database."""
@@ -77,15 +77,19 @@ class SingleSalesApi(Resource):
             return make_response(jsonify({"message": "This product is out of stock"}))
 
         claims = get_jwt_claims()
-        current_product.clear()
-        current_product['product_name'] =sale_product['product_name']
-        current_product['product_id'] =sale_product['product_id']
-        current_product['price'] = sale_product['price']
-        current_product['quantity'] = quantity
-        current_product['subtotal'] = current_product['price']*quantity
-        current_product['user_id'] = claims['user']
+        current_product ={
+        "product_name": sale_product['product_name'],
+        "product_id":  sale_product['product_id'],
+        "price": sale_product['price'],
+        "quantity": quantity,
+        "subtotal": sale_product['price']*quantity,
+        "user_id": claims['user']
+        }
         buyer_cart.append(current_product)
-        return make_response(jsonify({ "buyers_cart":buyer_cart,"message":"This are the items on your Cart"}))
+        total = 0
+        for item in buyer_cart:
+            total = total + item['subtotal']
+        return make_response(jsonify({ "buyers_cart":buyer_cart,"message":"This are the items on your Cart", "total":total}))
 
 class SalesApiUser(Resource):
     """This class has the post method to the sales database."""

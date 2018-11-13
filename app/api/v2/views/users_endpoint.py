@@ -96,7 +96,7 @@ class SingleUserApi(Resource):
         access_token = create_access_token(identity = logged_user)
         response = make_response(jsonify(dict(
         token = access_token,
-        user_id = logged_user["user_id"]
+        user_id = logged_user["user_id"],
         names = logged_user["names"],
         role = logged_user["role"],
         message = "wellcome "+names +", "+"you are loged in as "+role)),201)
