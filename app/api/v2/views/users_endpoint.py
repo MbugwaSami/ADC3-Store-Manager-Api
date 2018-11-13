@@ -87,9 +87,9 @@ class SingleUserApi(Resource):
             return {'message':'please enter data to login'}
         email = data.get('email').lower()
         password = data.get('password')
-        user2 = Users(email,password)
+        user2 = Users(email=email,password=password)
         if not user2.verify_user():
-            return make_response(jsonify({"message": "wrong email or password"}),401)
+            return make_response(jsonify({"message" :"wrong email or password"}),401)
         logged_user = user2.get_one_user()
         names = logged_user["names"]
         role = logged_user["role"]

@@ -68,16 +68,11 @@ class Users():
             self.cur.close()
             self.conn.close()
         result=self.cur.fetchone()
-        if result:
-            try:
-                valid_login = check_password_hash(result["password"], self.password)
-                if not valid_login:
-                    return False
-            except Exception as a:
-                print(a)
+        if not result:
+            return False
+        valid_login = check_password_hash(result["password"], self.password)
+        return valid_login
 
-            return True
-        return False
 
 
 
