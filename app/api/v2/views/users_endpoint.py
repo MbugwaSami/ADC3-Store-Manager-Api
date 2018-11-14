@@ -93,7 +93,7 @@ class SingleUserApi(Resource):
         logged_user = user2.get_one_user()
         names = logged_user["names"]
         role = logged_user["role"]
-        access_token = create_access_token(identity = logged_user)
+        access_token = create_access_token(identity = logged_user ,expires_delta=False)
         response = make_response(jsonify(dict(
         token = access_token,
         user_id = logged_user["user_id"],

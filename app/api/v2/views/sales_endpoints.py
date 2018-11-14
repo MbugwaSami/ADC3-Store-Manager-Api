@@ -41,7 +41,7 @@ class SalesApi(Resource):
         sales = sale.get_all_sales()
         if not sales:
             return make_response(jsonify({"message":"No sales are available"}))
-        return make_response(jsonify(sales))
+        return make_response(jsonify({"message":"This are all the sales","sales":sales}))
 
 
 
@@ -80,6 +80,7 @@ class SingleSalesApi(Resource):
         current_product ={
         "product_name": sale_product['product_name'],
         "product_id":  sale_product['product_id'],
+        "description":  sale_product['description'],
         "price": sale_product['price'],
         "quantity": quantity,
         "subtotal": sale_product['price']*quantity
