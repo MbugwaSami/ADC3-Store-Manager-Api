@@ -50,16 +50,26 @@ class DbBase(object):
 		product_name varchar(200) NOT NULL,
 		quantity INTEGER NOT NULL,
 		subtotal INTEGER NOT NULL,
+		sale_id INTEGER NOT NULL)
+		"""
+
+
+		query4 = """CREATE TABLE if not EXISTS transactions(
+		sale_id serial NOT NULL,
+		total INTEGER NOT NULL,
+		product_count integer NOT NULL,
 		user_id varchar(20) NOT NULL)
 		"""
 
-		query4 = """CREATE TABLE if not EXISTS blacklist(
+
+
+		query5 = """CREATE TABLE if not EXISTS blacklist(
 		token_id serial NOT NULL,
 		json_token varchar(700) NOT NULL
 		)
 		"""
 
-		queries=[query1, query2,  query3, query4]
+		queries=[query1, query2,  query3, query4, query5]
 
 		for query in queries:
 
@@ -79,11 +89,11 @@ class DbBase(object):
 		"""
 		conn = self.connection()
 		cur=conn.cursor()
-		if not self.select_one_user("sam@gmail.com"):
+		if not self.select_one_user("admin@quickwear.com"):
 
-		    password = generate_password_hash('Sammy10@')
+		    password = generate_password_hash('@Admin1')
 		    cur.execute("INSERT INTO users(email,names,password,role) VALUES(%s,%s,%s,%s)",
-		    ('sam@gmail.com', 'Sammy Njau',password,'admin'))
+		    ('admin@quickwear.com', 'Sammy Njau',password,'admin'))
 		    conn.commit()
 		    conn.close()
 

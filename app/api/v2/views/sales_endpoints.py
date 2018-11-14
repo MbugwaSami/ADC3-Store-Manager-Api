@@ -8,7 +8,7 @@ from ..models.products import Products
 
 
 buyer_cart = []
-current_product = {}
+totals = []
 
 class SalesApi(Resource):
     """This class has the post method to the sales database."""
@@ -25,7 +25,7 @@ class SalesApi(Resource):
 
         if len(buyer_cart) == 0:
             return make_response(jsonify({"message":"please add an item to cart"}))
-        sale = Sales(buyer_cart)
+        sale = Sales(buyer_cart,totals)
         sale.add_sale()
         buyer_cart.clear()
         return make_response(jsonify({"message":"your sale was succesful"}))
@@ -41,7 +41,7 @@ class SalesApi(Resource):
         sales = sale.get_all_sales()
         if not sales:
             return make_response(jsonify({"message":"No sales are available"}))
-        return make_response(jsonify(sales))
+        return make_response(jsonify({"message":"This are all the sales","sales":sales}))
 
 
 
@@ -77,14 +77,26 @@ class SingleSalesApi(Resource):
             return make_response(jsonify({"message": "This product is out of stock"}))
 
         claims = get_jwt_claims()
-        current_product['product_name'] =sale_product['product_name']
-        current_product['product_id'] =sale_product['product_id']
-        current_product['price'] = sale_product['price']
-        current_product['quantity'] = quantity
-        current_product['subtotal'] = current_product['price']*quantity
-        current_product['user_id'] = claims['user']
+        current_product ={
+        "product_name": sale_product['product_name'],
+        "product_id":  sale_product['product_id'],
+        "description":  sale_product['description'],
+        "price": sale_product['price'],
+        "quantity": quantity,
+        "subtotal": sale_product['price']*quantity
+        }
         buyer_cart.append(current_product)
-        return make_response(jsonify({ "Buyers Cart":buyer_cart,"message":"This are the items on your Cart"}))
+        total = 0
+        product_count= 0
+        for item in buyer_cart:
+            total = total + item['subtotal']
+            product_count = product_count + item['quantity']
+        totals.clear()
+        totals.append(total)
+        totals.append(product_count)
+        totals.append(claims['user'])
+        print(totals)
+        return make_response(jsonify({ "buyers_cart":buyer_cart,"message":"This are the items on your Cart", "total":total, "product_count":product_count}))
 
 class SalesApiUser(Resource):
     """This class has the post method to the sales database."""

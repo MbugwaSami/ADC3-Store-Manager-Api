@@ -54,7 +54,7 @@ class Users():
         This method gets all details users
         returns:all_users
         """
-        self.cur.execute("SELECT email,names,role FROM users")
+        self.cur.execute("SELECT user_id, email,names,role FROM users")
         return self.cur.fetchall()
 
     def verify_user(self):
@@ -68,16 +68,11 @@ class Users():
             self.cur.close()
             self.conn.close()
         result=self.cur.fetchone()
-        if result:
-            try:
-                valid_login = check_password_hash(result["password"], self.password)
-                if not valid_login:
-                    return False
-            except Exception as a:
-                print(a)
+        if not result:
+            return False
+        valid_login = check_password_hash(result["password"], self.password)
+        return valid_login
 
-            return True
-        return False
 
 
 

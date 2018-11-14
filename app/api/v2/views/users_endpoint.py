@@ -87,18 +87,26 @@ class SingleUserApi(Resource):
             return {'message':'please enter data to login'}
         email = data.get('email').lower()
         password = data.get('password')
-        user2 = Users(email,password)
+        user2 = Users(email=email,password=password)
         if not user2.verify_user():
-            return make_response(jsonify({"message": "wrong email or password"}),401)
+            return make_response(jsonify({"message" :"wrong email or password"}),401)
         logged_user = user2.get_one_user()
         names = logged_user["names"]
         role = logged_user["role"]
-        access_token = create_access_token(identity = logged_user)
-        response = make_response(jsonify(dict(token = access_token, message = "wellcome "+names +", "+"you are loged in as "+role)),201)
+        access_token = create_access_token(identity = logged_user ,expires_delta=False)
+        response = make_response(jsonify(dict(
+        token = access_token,
+        user_id = logged_user["user_id"],
+        names = logged_user["names"],
+        role = logged_user["role"],
+        message = "wellcome "+names +", "+"you are loged in as "+role)),201)
         return response
 
+
+
+
 class SingleUserApi1(Resource):
-    
+
     @jwt_required
     def post(self):
         """This method posts a token to a blacklist table during logout"""

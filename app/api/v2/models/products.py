@@ -45,7 +45,7 @@ class Products():
             self.cur.close
             self.conn.close
 
-        return dict(message = self.product_name+" succesfuly added")
+        return dict(message = "product succesfuly added")
 
     def get_product_by_name(self):
         """This method check wheather a product is in the system.
@@ -100,7 +100,7 @@ class Products():
 
     def update_product(self,product_id):
 
-    
+
 
         try:
             self.cur.execute("UPDATE products set description = %s , category = %s,price = %s,stock = %s,min_stock =%s"+
