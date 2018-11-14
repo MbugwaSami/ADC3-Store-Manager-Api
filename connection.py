@@ -89,11 +89,11 @@ class DbBase(object):
 		"""
 		conn = self.connection()
 		cur=conn.cursor()
-		if not self.select_one_user("sam@gmail.com"):
+		if not self.select_one_user("admin@quickwear.com"):
 
-		    password = generate_password_hash('Sammy10@')
+		    password = generate_password_hash('@Admin1')
 		    cur.execute("INSERT INTO users(email,names,password,role) VALUES(%s,%s,%s,%s)",
-		    ('sam@gmail.com', 'Sammy Njau',password,'admin'))
+		    ('admin@quickwear.com', 'Sammy Njau',password,'admin'))
 		    conn.commit()
 		    conn.close()
 
