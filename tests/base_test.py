@@ -96,8 +96,8 @@ class TestBase(unittest.TestCase):
 		)
 
 		self.owner_login = dict(
-		email = "sam@gmail.com",
-		password = "Sammy10@",
+		email = "admin@quickwear.com",
+		password = "@Admin1",
 		)
 
 
