@@ -18,7 +18,7 @@ class TestingConfig(Config):
     TESTING = True
     DEBUG = True
     connectionVariables="dbname='store_manager_test' password='Mwoboko10@' user='postgres' host='localhost' port='5432'"
-    os.environ['ENVIRONMENT']='testing'
+    # os.environ['ENVIRONMENT']='testing'
 
 
 app_config = {

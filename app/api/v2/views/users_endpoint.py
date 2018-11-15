@@ -103,6 +103,50 @@ class SingleUserApi(Resource):
         return response
 
 
+    @jwt_required
+    def put(self,user_id):
+
+
+        claims = get_jwt_claims()
+        if claims['role'] != "admin":
+            return make_response(jsonify({'message':'You are not allowed to perform this action, contact the system admin!'}),401)
+
+        data=request.get_json()
+
+        if not data:
+            return make_response(jsonify({"message":"Please input data to update"}),200)
+
+        email = data.get('email')
+        names = data.get('names')
+        role = (data.get('role'))
+        password = (data.get('password'))
+        user = Users(email,names,password,role)
+
+        user1  = user.get_user_by_id(user_id)
+        if not user1:
+            return make_response(jsonify({"message":"This user is not in the system"}),200)
+        if not user.validate_email():
+            return make_response(jsonify({'message':'Please enter a valid email'}),200)
+
+        if not (role == "admin" or role == "attendant"):
+            return make_response(jsonify({'message':'Roles can only be admin or attendant'}),200)
+
+        if not user.validate_password():
+            return make_response(jsonify({'message':'password should be between 6 and 12 characters, have atleast one lower_case,'+
+            'one Upper_case,one number and one special character'}),200)
+
+        if not email:
+            email = user1["email"]
+        if not names:
+            names = user1["names"]
+        if not role:
+            role = user1["role"]
+        if not password:
+            password = user1["password"]
+        response = make_response(jsonify(user.update_user(user_id)),200)
+
+        return response
+
 
 
 class SingleUserApi1(Resource):
