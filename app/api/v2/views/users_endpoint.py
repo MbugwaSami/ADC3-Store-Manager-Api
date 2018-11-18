@@ -102,6 +102,24 @@ class SingleUserApi(Resource):
         message = "wellcome "+names +", "+"you are loged in as "+role)),201)
         return response
 
+    @jwt_required
+    def get(self,user_id):
+         """
+         This method gets data of a single product.
+         returns: details of a single product.
+         """
+         try:
+             user_id = int(user_id)
+         except Exception as e:
+             return make_response(jsonify({"message":"user id should be an integer"}))
+         user = Users()
+         if not user.get_user_by_id(user_id):
+             return make_response(jsonify({"message":"user not available"}))
+
+         response = make_response(jsonify({"message":"user found","product":user.get_user_by_id(user_id)}),200)
+         return response
+
+
 
     @jwt_required
     def put(self,user_id):

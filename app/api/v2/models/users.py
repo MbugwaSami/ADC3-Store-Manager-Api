@@ -86,7 +86,7 @@ class Users():
            :return:delete message:
         """
         if not self.get_user_by_id(user_id):
-            return dict(message = "This product is not in the system")
+            return dict(message = "This user is not in the system")
         try:
             self.cur.execute("DELETE FROM users WHERE user_id = %s", (user_id,))
             self.conn.commit()
