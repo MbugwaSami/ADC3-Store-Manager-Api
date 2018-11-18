@@ -35,6 +35,7 @@ def create_app(config_name):
         '''check if token is in black list'''
         json_token = decrypted_token['jti']
         revoked_tokens = Users()
+        print(revoked_tokens.check_blacklist(json_token))
         return revoked_tokens.check_blacklist(json_token)
 
 

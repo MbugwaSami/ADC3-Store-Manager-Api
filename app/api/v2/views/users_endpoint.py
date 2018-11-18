@@ -147,6 +147,18 @@ class SingleUserApi(Resource):
 
         return response
 
+    @jwt_required
+    def delete(self,user_id):
+            user = Users()
+            claims = get_jwt_claims()
+            if claims['role'] != "admin":
+                return make_response(jsonify({'message':'You are not allowed to perform this action, contact the system admin!'}),401)
+            response = make_response(jsonify(user.delete_user(user_id)),200)
+
+            return response
+
+
+
 
 
 class SingleUserApi1(Resource):

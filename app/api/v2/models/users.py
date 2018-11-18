@@ -81,6 +81,22 @@ class Users():
             self.cur.close
             self.conn.close
 
+    def delete_user(self,user_id):
+        """This method deletes a user from the database.
+           :return:delete message:
+        """
+        if not self.get_user_by_id(user_id):
+            return dict(message = "This product is not in the system")
+        try:
+            self.cur.execute("DELETE FROM users WHERE user_id = %s", (user_id,))
+            self.conn.commit()
+            return dict(message = "one user deleted")
+        except Exception as e:
+            self.cur.close
+            self.conn.close
+
+
+
 
     def verify_user(self):
         """This method verifys user  details during login.
