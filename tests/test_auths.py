@@ -152,7 +152,7 @@ class TestAuths(TestBase):
 
 
     def test_empty_login(self):
-        """This method test wheather user cannot login with empty data.
+        """This method test whether user cannot login with empty data.
            :param1:client.
            :param2:user data.
            :returns:response.
