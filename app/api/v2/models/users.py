@@ -49,6 +49,16 @@ class Users():
         self.cur.execute("SELECT user_id,email,names,role FROM users where email =%s",(self.email,))
         return self.cur.fetchone()
 
+    def get_user_by_id(self,user_id):
+        """This method gets one user from the database
+           :param1:email.
+           :returns:user.
+        """
+
+        self.cur.execute("SELECT email,names,role FROM users where user_id =%s",(user_id,))
+        return self.cur.fetchone()
+
+
     def get_all_users(self):
         """
         This method gets all details users
@@ -56,6 +66,37 @@ class Users():
         """
         self.cur.execute("SELECT user_id, email,names,role FROM users")
         return self.cur.fetchall()
+
+    def update_user(self,user_id):
+
+
+
+        try:
+            password = generate_password_hash(self.password)
+            self.cur.execute("UPDATE users set email = %s , names = %s,role = %s,password = %s"+
+            "where user_id = %s", (self.email,self.names,self.role,password,user_id,))
+            self.conn.commit()
+            return dict(message = "Updated succesfuly")
+        except Exception as e:
+            self.cur.close
+            self.conn.close
+
+    def delete_user(self,user_id):
+        """This method deletes a user from the database.
+           :return:delete message:
+        """
+        if not self.get_user_by_id(user_id):
+            return dict(message = "This user is not in the system")
+        try:
+            self.cur.execute("DELETE FROM users WHERE user_id = %s", (user_id,))
+            self.conn.commit()
+            return dict(message = "one user deleted")
+        except Exception as e:
+            self.cur.close
+            self.conn.close
+
+
+
 
     def verify_user(self):
         """This method verifys user  details during login.
