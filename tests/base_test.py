@@ -82,13 +82,15 @@ class TestBase(unittest.TestCase):
 		role = "attendant",
 		)
 
-		self.test_login = dict(
+		self.login_user = dict(
 		email = "sammy@gmail.com",
+		names = "sammy mbugua",
 		password = "Mwoboko10@",
+		role = "attendant",
 		)
 
 		self.test_login = dict(
-		email = "samiNjau@gmail.com",
+		email = "sammy@gmail.com",
 		password = "Mwoboko10@",
 		)
 

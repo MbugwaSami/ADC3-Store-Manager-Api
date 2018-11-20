@@ -80,10 +80,6 @@ class TestAuths(TestBase):
         content_type = 'application/json'
         )
 
-        response_data = json.loads(response.data)
-        self.assertEqual(response_data["message"],"User account succesfuly created")
-        self.assertEqual(response.status_code, 201)
-
         response = self.client.post(
         '/api/v2/users',
         headers=dict(Authorization="Bearer " + self.owner_token),
@@ -182,6 +178,14 @@ class TestAuths(TestBase):
            :products data
            :returns:response:
         """
+
+        response = self.client.post(
+        '/api/v2/users',
+        data = json.dumps(self.login_user),
+        headers=dict(Authorization="Bearer " + self.owner_token),
+        content_type = 'application/json'
+        )
+
         response = self.client.post(
         '/api/v2/users/login',
         data = json.dumps(self.test_login),
@@ -189,8 +193,7 @@ class TestAuths(TestBase):
         )
 
         response_data = json.loads(response.data)
-        attendant_token = json.loads(response.data.decode())['token']
-        self.assertEqual(response_data["message"],"wellcome SAMMY NJAU, you are loged in as attendant")
+        self.assertEqual(response_data["message"],"wellcome SAMMY MBUGUA, you are loged in as attendant")
         self.assertEqual(response.status_code, 201)
 
 
@@ -222,10 +225,6 @@ class TestAuths(TestBase):
         content_type = 'application/json'
         )
 
-        response_data = json.loads(response.data)
-        self.assertEqual(response_data["message"],"User account succesfuly created")
-        self.assertEqual(response.status_code, 201)
-
         response = self.client.post(
         '/api/v2/users/login',
         data = json.dumps(dict(
@@ -235,19 +234,14 @@ class TestAuths(TestBase):
         content_type = 'application/json'
         )
 
-        response_data = json.loads(response.data)
-        attendant_token = json.loads(response.data.decode())['token']
-        self.assertEqual(response_data["message"],"wellcome SAMMY NJAU, you are loged in as attendant")
-        self.assertEqual(response.status_code, 201)
-
         attendant_token = json.loads(response.data.decode())['token']
 
         response = self.client.post(
         '/api/v2/users/logout',
         headers=dict(Authorization="Bearer " + attendant_token),
         content_type = 'application/json'
-        )
 
+        )
         response_data = json.loads(response.data)
 
         self.assertEqual(response_data["message"],"You have been logged out")
@@ -308,12 +302,30 @@ class TestAuths(TestBase):
         self.assertEqual(response.status_code, 200)
 
     def test_update_user(self):
-         """This method tests the method for updating product details
+         """This method tests the method for updating user details
             :param1:client.
             :products data
             :returns:response:
          """
-         # check if updated user exists
+         response = self.client.put(
+         '/api/v2/users/1',
+         data = json.dumps(self.test_user8),
+         headers=dict(Authorization="Bearer " + self.owner_token),
+         content_type = 'application/json'
+         )
+
+         response_data = json.loads(response.data)
+         self.assertEqual(response_data["message"],"Updated succesfuly")
+         self.assertEqual(response.status_code, 200)
+
+    def test_update_user_not_existing(self):
+
+         """This method tests the method for updating user details of user not in the system
+            :param1:client.
+            :products data
+            :returns:response:
+         """
+
          response = self.client.put(
          '/api/v2/users/8888',
          headers=dict(Authorization="Bearer " + self.owner_token),
@@ -325,31 +337,20 @@ class TestAuths(TestBase):
          self.assertEqual("This user is not in the system",response_data["message"])
          self.assertEqual(response.status_code, 200)
 
-         response = self.client.put(
-         '/api/v2/users/1',
-         data = json.dumps(self.test_user8),
-         headers=dict(Authorization="Bearer " + self.owner_token),
-         content_type = 'application/json'
-         )
-         self.assertEqual(response.status_code, 200)
 
 
-    def test_delete_product(self):
-        """This method tests the method for deleting a product.
+    def test_delete_user(self):
+        """This method tests the method for deleting a user.
            :param1:client.
            :products data
            :returns:response:
         """
 
         response = self.client.delete(
-        '/api/v2/users/4',
+        '/api/v2/users/3',
         headers=dict(Authorization="Bearer " + self.owner_token)
         )
-        self.assertEqual(response.status_code, 200)
 
-
-        response = self.client.get(
-        '/api/v2/users/4',
-        headers=dict(Authorization="Bearer " + self.owner_token))
         response_data = json.loads(response.data)
-        self.assertEqual("user not available",response_data["message"])
+        self.assertEqual(response_data["message"], "one user deleted")
+        self.assertEqual(response.status_code, 200)
