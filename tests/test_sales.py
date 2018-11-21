@@ -14,7 +14,7 @@ class TestSales(TestBase):
            :returns:response:
         """
         response = self.client.get(
-        '/api/v2/sales/3/2',
+        '/self.base_url/sales/3/2',
         headers=dict(Authorization="Bearer " + self.owner_token),
         content_type = 'application/json'
         )
@@ -32,7 +32,7 @@ class TestSales(TestBase):
            :returns:response:
         """
         response = self.client.post(
-        '/api/v2/sales',
+        '/self.base_url/sales',
         headers=dict(Authorization="Bearer " + self.owner_token),
         content_type = 'application/json'
         )
@@ -52,7 +52,7 @@ class TestSales(TestBase):
         # test sale products not in db
 
         response = self.client.get(
-        '/api/v2/sales/1999/2',
+        '/self.base_url/sales/1999/2',
         headers=dict(Authorization="Bearer " + self.attendant_token),
         content_type = 'application/json'
         )
@@ -71,7 +71,7 @@ class TestSales(TestBase):
            :returns:response:
         """
         response = self.client.get(
-        '/api/v2/sales/2/1',
+        '/self.base_url/sales/2/1',
         headers=dict(Authorization="Bearer " + self.attendant_token),
         content_type = 'application/json'
         )
@@ -90,7 +90,7 @@ class TestSales(TestBase):
 
         # test sale item that can be sold
         response = self.client.get(
-        '/api/v2/sales/3/2',
+        '/self.base_url/sales/3/2',
         headers=dict(Authorization="Bearer " + self.attendant_token),
         content_type = 'application/json'
         )
@@ -108,7 +108,7 @@ class TestSales(TestBase):
            :returns:response:
         """
         response = self.client.post(
-        '/api/v2/sales',
+        '/self.base_url/sales',
         headers=dict(Authorization="Bearer " + self.attendant_token),
         content_type = 'application/json'
         )
@@ -125,7 +125,7 @@ class TestSales(TestBase):
            :returns:response:
         """
         response = self.client.get(
-        '/api/v2/sales/2',
+        '/self.base_url/sales/2',
         headers=dict(Authorization="Bearer " + self.attendant_token),
         content_type = 'application/json'
         )
@@ -141,7 +141,7 @@ class TestSales(TestBase):
            :returns:response:
         """
         response = self.client.get(
-        '/api/v2/sales',
+        '/self.base_url/sales',
         headers=dict(Authorization="Bearer " + self.owner_token),
         content_type = 'application/json'
         )
@@ -158,7 +158,7 @@ class TestSales(TestBase):
            :returns:response:
         """
         response = self.client.get(
-        '/api/v2/sales/1',
+        '/self.base_url/sales/1',
         headers=dict(Authorization="Bearer " + self.attendant_token),
         content_type = 'application/json'
         )
@@ -175,7 +175,7 @@ class TestSales(TestBase):
            :returns:response:
         """
         response = self.client.get(
-        '/api/v2/sales',
+        '/self.base_url/sales',
         headers=dict(Authorization="Bearer " + self.attendant_token),
         content_type = 'application/json'
         )

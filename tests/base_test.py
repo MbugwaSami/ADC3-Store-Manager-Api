@@ -203,8 +203,11 @@ class TestBase(unittest.TestCase):
 		minStock = 10
 		)
 
+		# base url for all endpoints
+		self.base_url = 'self.base_url'
+
 		response = self.client.post(
-		'/api/v2/users/login',
+		'/self.base_url/users/login',
 		data = json.dumps(self.owner_login),
 		content_type = 'application/json'
 		)
@@ -213,7 +216,7 @@ class TestBase(unittest.TestCase):
 		# create an attendant
 
 		response = self.client.post(
-		'/api/v2/users',
+		'/self.base_url/users',
 		data = json.dumps(dict(
 		email = "saminjau12@gmail.com",
 		names = "Sammy Njau",
@@ -226,7 +229,7 @@ class TestBase(unittest.TestCase):
 
 		#login the attendant
 		response = self.client.post(
-		'/api/v2/users/login',
+		'/self.base_url/users/login',
 		data = json.dumps(dict(
 		email = "saminjau12@gmail.com",
 		password = "Mfhry45978#",

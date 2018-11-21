@@ -7,14 +7,14 @@ class TestAuths(TestBase):
     """This class has methods that test methods used in manipulation of user data."""
     def test_create_account(self):
 
-        """This method tests wheather a user account has been created.
+        """This method tests whether a user account has been created.
            :param1:client.
            :user data
            :returns:response:
         """
         # test create user
         response = self.client.post(
-        '/api/v2/users',
+        '/self.base_url/users',
         data = json.dumps(self.test_user),
         headers=dict(Authorization="Bearer " + self.owner_token),
         content_type = 'application/json'
@@ -34,7 +34,7 @@ class TestAuths(TestBase):
            :returns:response:
         """
         response = self.client.post(
-        '/api/v2/users',
+        '/self.base_url/users',
         data = json.dumps({}),
         headers=dict(Authorization="Bearer " + self.owner_token),
         content_type = 'application/json'
@@ -54,7 +54,7 @@ class TestAuths(TestBase):
            :returns:response:
         """
         response = self.client.post(
-        '/api/v2/users',
+        '/self.base_url/users',
         data = json.dumps(self.test_user5),
         headers=dict(Authorization="Bearer " + self.owner_token),
         content_type = 'application/json'
@@ -65,23 +65,23 @@ class TestAuths(TestBase):
         self.assertEqual(response.status_code, 200)
 
 
-        # test user exist
+
     def test_user_already_exists(self):
 
-        """This method tests for an existing user.
+        """This method tests adding an existing user.
            :param1:client.
            :products data
            :returns:response:
         """
         response = self.client.post(
-        '/api/v2/users',
+        '/self.base_url/users',
         data = json.dumps(self.test_user1),
         headers=dict(Authorization="Bearer " + self.owner_token),
         content_type = 'application/json'
         )
 
         response = self.client.post(
-        '/api/v2/users',
+        '/self.base_url/users',
         headers=dict(Authorization="Bearer " + self.owner_token),
         data = json.dumps(self.test_user1),
         content_type = 'application/json'
@@ -100,7 +100,7 @@ class TestAuths(TestBase):
            :returns:response:
         """
         response = self.client.post(
-        '/api/v2/users',
+        '/self.base_url/users',
         data = json.dumps(self.test_user2),
         headers=dict(Authorization="Bearer " + self.owner_token),
         content_type = 'application/json'
@@ -120,7 +120,7 @@ class TestAuths(TestBase):
            :returns:response:
         """
         response = self.client.post(
-        '/api/v2/users',
+        '/self.base_url/users',
         data = json.dumps(self.test_user3),
         headers=dict(Authorization="Bearer " + self.owner_token),
         content_type = 'application/json'
@@ -140,7 +140,7 @@ class TestAuths(TestBase):
            :returns:response:
         """
         response = self.client.post(
-        '/api/v2/users',
+        '/self.base_url/users',
         data = json.dumps(self.test_user4),
         headers=dict(Authorization="Bearer " + self.owner_token),
         content_type = 'application/json'
@@ -161,7 +161,7 @@ class TestAuths(TestBase):
 
         #test empty login
         response = self.client.post(
-        '/api/v2/users/login',
+        '/self.base_url/users/login',
         data = json.dumps({}),
         content_type = 'application/json'
         )
@@ -180,14 +180,14 @@ class TestAuths(TestBase):
         """
 
         response = self.client.post(
-        '/api/v2/users',
+        '/self.base_url/users',
         data = json.dumps(self.login_user),
         headers=dict(Authorization="Bearer " + self.owner_token),
         content_type = 'application/json'
         )
 
         response = self.client.post(
-        '/api/v2/users/login',
+        '/self.base_url/users/login',
         data = json.dumps(self.test_login),
         content_type = 'application/json'
         )
@@ -207,7 +207,7 @@ class TestAuths(TestBase):
            :returns:response:
         """
         response = self.client.post(
-        '/api/v2/users/login',
+        '/self.base_url/users/login',
         data = json.dumps(self.test_login1),
         content_type = 'application/json'
         )
@@ -219,14 +219,14 @@ class TestAuths(TestBase):
     def test_logout(self):
 
         response = self.client.post(
-        '/api/v2/users',
+        '/self.base_url/users',
         data = json.dumps(self.test_user7),
         headers=dict(Authorization="Bearer " + self.owner_token),
         content_type = 'application/json'
         )
 
         response = self.client.post(
-        '/api/v2/users/login',
+        '/self.base_url/users/login',
         data = json.dumps(dict(
         email = "sammy@gmail.com",
         password = "Mwoboko10@"
@@ -237,7 +237,7 @@ class TestAuths(TestBase):
         attendant_token = json.loads(response.data.decode())['token']
 
         response = self.client.post(
-        '/api/v2/users/logout',
+        '/self.base_url/users/logout',
         headers=dict(Authorization="Bearer " + attendant_token),
         content_type = 'application/json'
 
@@ -257,7 +257,7 @@ class TestAuths(TestBase):
            :returns:response:
         """
         response = self.client.post(
-        '/api/v2/users',
+        '/self.base_url/users',
         data = json.dumps(self.test_user7),
         headers=dict(Authorization="Bearer " + self.attendant_token),
         content_type = 'application/json'
@@ -275,7 +275,7 @@ class TestAuths(TestBase):
            :returns:response:
         """
         response = self.client.get(
-        '/api/v2/users',
+        '/self.base_url/users',
         headers=dict(Authorization="Bearer " + self.attendant_token),
         content_type = 'application/json'
         )
@@ -292,7 +292,7 @@ class TestAuths(TestBase):
            :returns:response:
         """
         response = self.client.get(
-        '/api/v2/users',
+        '/self.base_url/users',
         headers=dict(Authorization="Bearer " + self.owner_token),
         content_type = 'application/json'
         )
@@ -308,7 +308,7 @@ class TestAuths(TestBase):
             :returns:response:
          """
          response = self.client.put(
-         '/api/v2/users/1',
+         '/self.base_url/users/1',
          data = json.dumps(self.test_user8),
          headers=dict(Authorization="Bearer " + self.owner_token),
          content_type = 'application/json'
@@ -327,7 +327,7 @@ class TestAuths(TestBase):
          """
 
          response = self.client.put(
-         '/api/v2/users/8888',
+         '/self.base_url/users/8888',
          headers=dict(Authorization="Bearer " + self.owner_token),
          data = json.dumps(self.test_product),
          content_type = 'application/json'
@@ -347,7 +347,7 @@ class TestAuths(TestBase):
         """
 
         response = self.client.delete(
-        '/api/v2/users/3',
+        '/self.base_url/users/3',
         headers=dict(Authorization="Bearer " + self.owner_token)
         )
 

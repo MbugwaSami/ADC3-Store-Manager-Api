@@ -15,7 +15,7 @@ class TestProducts(TestBase):
 
         #test product has been added
         response = self.client.post(
-        '/api/v2/products',
+        '/self.base_url/products',
         data = json.dumps(self.test_product),
         headers=dict(Authorization="Bearer " + self.owner_token),
         content_type = 'application/json'
@@ -35,14 +35,14 @@ class TestProducts(TestBase):
         """
 
         response = self.client.post(
-        '/api/v2/products',
+        '/self.base_url/products',
         data = json.dumps(self.test_sale_product),
         headers=dict(Authorization="Bearer " + self.owner_token),
         content_type = 'application/json'
         )
 
         response = self.client.post(
-        '/api/v2/products',
+        '/self.base_url/products',
         data = json.dumps(self.test_sale_product),
         headers=dict(Authorization="Bearer " + self.owner_token),
         content_type = 'application/json'
@@ -63,7 +63,7 @@ class TestProducts(TestBase):
            :returns:response:
         """
         response = self.client.post(
-        '/api/v2/products',
+        '/self.base_url/products',
         data = json.dumps({}),
         headers=dict(Authorization="Bearer " + self.owner_token),
         content_type = 'application/json'
@@ -82,7 +82,7 @@ class TestProducts(TestBase):
            :returns:response:
         """
         response = self.client.post(
-        '/api/v2/products',
+        '/self.base_url/products',
         data = json.dumps(self.test_product1),
         headers=dict(Authorization="Bearer " + self.owner_token),
         content_type = 'application/json'
@@ -104,7 +104,7 @@ class TestProducts(TestBase):
            :returns:response:
         """
         response = self.client.post(
-        '/api/v2/products',
+        '/self.base_url/products',
         data = json.dumps(self.test_product3),
         headers=dict(Authorization="Bearer " + self.owner_token),
         content_type = 'application/json'
@@ -123,7 +123,7 @@ class TestProducts(TestBase):
            :returns:response:
         """
         response = self.client.post(
-        '/api/v2/products',
+        '/self.base_url/products',
         data = json.dumps(self.test_product4),
         headers=dict(Authorization="Bearer " + self.owner_token),
         content_type = 'application/json'
@@ -142,7 +142,7 @@ class TestProducts(TestBase):
            :returns:response:
         """
         response = self.client.post(
-        '/api/v2/products',
+        '/self.base_url/products',
         data = json.dumps(self.test_product5),
         headers=dict(Authorization="Bearer " + self.owner_token),
         content_type = 'application/json'
@@ -162,7 +162,7 @@ class TestProducts(TestBase):
            :returns:response:
         """
         response = self.client.get(
-        '/api/v2/products/2',
+        '/self.base_url/products/2',
         headers=dict(Authorization="Bearer " + self.owner_token))
 
         response_data = json.loads(response.data)
@@ -180,14 +180,14 @@ class TestProducts(TestBase):
         """
         # test admin can get all productds
         response = self.client.post(
-        '/api/v2/products',
+        '/self.base_url/products',
         data = json.dumps(self.test_product6),
         headers=dict(Authorization="Bearer " + self.owner_token),
         content_type = 'application/json'
         )
 
         response = self.client.get(
-        '/api/v2/products',
+        '/self.base_url/products',
         headers=dict(Authorization="Bearer " + self.owner_token),)
         response_data = json.loads(response.data)
         self.assertEqual(response_data["message"],"These products are available")
@@ -202,7 +202,7 @@ class TestProducts(TestBase):
            :returns:response:
         """
         response = self.client.get(
-        '/api/v2/products',
+        '/self.base_url/products',
         headers=dict(Authorization="Bearer " + self.attendant_token),)
         response_data = json.loads(response.data)
         self.assertEqual(response_data["message"],"These products are available")
@@ -216,7 +216,7 @@ class TestProducts(TestBase):
            :returns:response:
         """
         response = self.client.put(
-        '/api/v2/products/2',
+        '/self.base_url/products/2',
         data = json.dumps(self.test_product7),
         headers=dict(Authorization="Bearer " + self.owner_token),
         content_type = 'application/json'
@@ -235,7 +235,7 @@ class TestProducts(TestBase):
            :returns:response:
         """
         response = self.client.put(
-        '/api/v2/products/8888',
+        '/self.base_url/products/8888',
         headers=dict(Authorization="Bearer " + self.owner_token),
         data = json.dumps(self.test_product),
         content_type = 'application/json'
@@ -254,7 +254,7 @@ class TestProducts(TestBase):
         """
 
         response = self.client.delete(
-        '/api/v2/products/1',
+        '/self.base_url/products/1',
         headers=dict(Authorization="Bearer " + self.owner_token)
         )
 
@@ -270,7 +270,7 @@ class TestProducts(TestBase):
         """
 
         response = self.client.delete(
-        '/api/v2/products/1888',
+        '/self.base_url/products/1888',
         headers=dict(Authorization="Bearer " + self.owner_token)
         )
 
@@ -288,7 +288,7 @@ class TestProducts(TestBase):
         """
 
         response = self.client.post(
-        '/api/v2/products',
+        '/self.base_url/products',
         data = json.dumps(self.test_product),
         headers=dict(Authorization="Bearer " + self.attendant_token),
         content_type = 'application/json'
@@ -306,7 +306,7 @@ class TestProducts(TestBase):
            :returns:response:
         """
         response = self.client.delete(
-        '/api/v2/products/2',
+        '/self.base_url/products/2',
         data = json.dumps(self.update_product),
         headers=dict(Authorization="Bearer " + self.attendant_token),
         content_type = 'application/json'
@@ -323,7 +323,7 @@ class TestProducts(TestBase):
            :returns:response:
         """
         response = self.client.put(
-        '/api/v2/products/2',
+        '/self.base_url/products/2',
         data = json.dumps(self.test_product),
         headers=dict(Authorization="Bearer " + self.attendant_token),
         content_type = 'application/json'
