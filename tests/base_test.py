@@ -204,7 +204,7 @@ class TestBase(unittest.TestCase):
 		)
 
 		# base url for all endpoints
-		self.base_url = 'self.base_url'
+		self.base_url = 'api/v2'
 
 		response = self.client.post(
 		'/self.base_url/users/login',
