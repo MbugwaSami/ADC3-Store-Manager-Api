@@ -75,7 +75,7 @@ class ProductsApi(Resource):
         products = product3.get_products()
         if not products:
             return make_response(jsonify({"message":"no product available in the system"}),200)
-        response = make_response(jsonify({"products":products}),200)
+        response = make_response(jsonify({"products":products, "message":"These products are available"}),200)
         return response
 
 class SingleProductApi(Resource):

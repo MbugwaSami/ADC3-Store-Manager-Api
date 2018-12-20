@@ -41,7 +41,7 @@ class SalesApi(Resource):
         sales = sale.get_all_sales()
         if not sales:
             return make_response(jsonify({"message":"No sales are available"}))
-        return make_response(jsonify({"message":"This are all the sales","sales":sales}))
+        return make_response(jsonify({"message":"These are all the sales","sales":sales}))
 
 
 
@@ -96,7 +96,7 @@ class SingleSalesApi(Resource):
         totals.append(product_count)
         totals.append(claims['user'])
         print(totals)
-        return make_response(jsonify({ "buyers_cart":buyer_cart,"message":"This are the items on your Cart", "total":total, "product_count":product_count}))
+        return make_response(jsonify({ "buyers_cart":buyer_cart,"message":"These are the items on your Cart", "total":total, "product_count":product_count}))
 
 class SalesApiUser(Resource):
     """This class has the post method to the sales database."""
@@ -114,7 +114,7 @@ class SalesApiUser(Resource):
         print(user_id)
         if not sales:
             return make_response(jsonify({"message":"No sales are available"}))
-        return make_response(jsonify({"message":"This are your sales","sales":sales}),200)
+        return make_response(jsonify({"message":"These are your sales","sales":sales}),200)
 
 class SalesApiSale(Resource):
     """This class has the post method to the sales database."""
